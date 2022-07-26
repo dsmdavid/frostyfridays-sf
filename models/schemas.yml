@@ -21,3 +21,5 @@ models:
         description: original filename including path
   - name: challenge_04_03
     description: '{{ doc("challenge04") }}'
+  - name: challenge_05
+    description: '{{ doc("challenge05") }}'
