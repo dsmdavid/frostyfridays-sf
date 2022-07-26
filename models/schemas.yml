@@ -19,3 +19,5 @@ models:
     columns:
       - name: name
         description: original filename including path
+  - name: challenge_04_03
+    description: '{{ doc("challenge04") }}'
