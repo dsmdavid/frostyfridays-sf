@@ -12,6 +12,8 @@ unique_keys as (
     select distinct t.value as key_name
     from combined_keys,
     lateral split_to_table(combined_keys.all_keys, ',') as t)
+    select key_name from unique_keys
+    /*
 select 
 'temp:monarchs:"' || key_name || '"]::'||
     case 
@@ -24,3 +26,4 @@ select
 
 
  from unique_keys
+ */

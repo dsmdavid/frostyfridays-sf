@@ -1,31 +1,40 @@
+-- depends_on: {{ ref('challenge_04_02_aux') }}
 {{
   config(
     materialized = 'view'
  )
 }}
+{% call statement('unique_keys', fetch_result=True) %}
+  select key_name
+  from {{ ref('challenge_04_02_aux') }}
+{% endcall %}
+{% set unique_keys = load_result('unique_keys') %}
 
 with temp as (
-    select * from {{ ref('challenge_04_01') }})
+    select * from {{ ref('challenge_04_01') }}),
+prep as (
 select 
     row_number() over (order by temp.monarchs['Birth'] asc ) as id,
     temp.monarch_index+1 as inter_house_id,
     temp.era,
     temp.house_name,
-    temp.monarchs['Name']::varchar as NAME,
-    temp.monarchs['Start of Reign']::date as START_OF_REIGN,
-    regexp_replace(temp.monarchs['Age at Time of Death']::varchar,'[^0-9]','')::number
-     as AGE_AT_TIME_OF_DEATH_YEARS,
-    temp.monarchs['Birth']::date as BIRTH,
-    temp.monarchs['Burial Place']::varchar as BURIAL_PLACE,
-    coalesce(temp.monarchs:"Consort\/Queen Consort"[0]::varchar,temp.monarchs:"Consort\/Queen Consort"::varchar) as CONSORT__QUEEN_CONSORT_1,
-    temp.monarchs:"Consort\/Queen Consort"[1]::varchar as CONSORT__QUEEN_CONSORT_2,
-    temp.monarchs:"Consort\/Queen Consort"[2]::varchar as CONSORT__QUEEN_CONSORT_3,
-    temp.monarchs['Death']::varchar as DEATH,
-    temp.monarchs['Duration']::varchar as DURATION,
-    temp.monarchs['End of Reign']::date as END_OF_REIGN,
-    coalesce(temp.monarchs['Nickname'][0]::varchar,temp.monarchs['Nickname']::varchar) as NICKNAME_1,
-    temp.monarchs['Nickname'][1]::varchar as NICKNAME_2,
-    temp.monarchs['Nickname'][2]::varchar as NICKNAME_3,
-    temp.monarchs['Place of Birth']::varchar as PLACE_OF_BIRTH,
-    temp.monarchs['Place of Death']::varchar as PLACE_OF_DEATH
-from temp
+    {%- if execute %}
+    {%- for key_name in unique_keys['data'] %}
+    {%- if key_name[0] not in ('Consort\/Queen Consort','Nickname')%}
+    temp.monarchs:"{{ key_name[0] }}"::
+      {%- if key_name[0] | lower in ('birth','date','end of reign','start of reign') -%}
+      date
+      {%- else -%}
+      varchar
+      {%- endif %} as {{ modules.re.sub('[^a-zA-Z]','_',key_name[0] | upper ) }},
+    {%- else %}
+    coalesce(temp.monarchs:"{{ key_name[0] }}"[0]::varchar, temp.monarchs:"{{ key_name[0] }}"::varchar) as {{ modules.re.sub('[^a-zA-Z]','_',key_name[0] | upper ) }}_01,
+    temp.monarchs:"{{ key_name[0] }}"[1]::varchar as {{ modules.re.sub('[^a-zA-Z]','_',key_name[0] | upper ) }}_02,
+    temp.monarchs:"{{ key_name[0] }}"[2]::varchar as {{ modules.re.sub('[^a-zA-Z]','_',key_name[0] | upper ) }}_03,
+    {%- endif %}
+    {%- endfor %}
+    {% endif %}
+
+    1 as dummy
+from temp)
+select * from prep
