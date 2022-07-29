@@ -49,6 +49,7 @@ jobs:
       - name: dbt docs generate
         run: |
           pwd
+          env
           echo "key"
           cat ./rsa_key_david_sf.p8 
           export DBT_PROFILES_DIR=$(pwd)/profiles
