@@ -41,7 +41,7 @@ jobs:
           echo "-----END ENCRYPTED PRIVATE KEY-----" >> ./rsa_key_david_sf.p8
           echo $AWS_EXPORT >> ./aws_export
           source ./aws_export 
-          env
+
       - name: install requirements
         run: "pip install -r requirements.txt"
       - name: install aws
