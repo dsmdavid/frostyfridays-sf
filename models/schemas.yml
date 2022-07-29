@@ -1,5 +1,13 @@
 version: 2
-
+sources:
+  - name: account_usage
+    database: SNOWFLAKE
+    schema: account_usage
+    tables:
+      - name: access_history
+      - name: tag_references
+      - name: query_history
+    
 models:
   - name: challenge_01
     description: '{{ doc("challenge01") }}'
@@ -23,3 +31,5 @@ models:
     description: '{{ doc("challenge04") }}'
   - name: challenge_05
     description: '{{ doc("challenge05") }}'
+  - name: challenge_07
+    description: '{{ doc("challenge07") }}'

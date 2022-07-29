@@ -5,7 +5,7 @@ services:
         build: .
         volumes:
             - ./:/app/
-            - ~/.dbt:/root/.dbt
+            # - ~/.dbt:/root/.dbt
             - ~/.ssh:/root/.ssh
 
         environment:
