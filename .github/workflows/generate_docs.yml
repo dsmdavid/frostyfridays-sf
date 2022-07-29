@@ -49,6 +49,7 @@ jobs:
       - name: dbt docs generate
         run: |
           pwd
+          source ./aws_export
           env
           echo "key"
           cat ./rsa_key_david_sf.p8 
