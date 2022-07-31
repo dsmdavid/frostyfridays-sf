@@ -33,3 +33,23 @@ models:
     description: '{{ doc("challenge05") }}'
   - name: challenge_07
     description: '{{ doc("challenge07") }}'
+  - name: challenge_06_01
+    description: Reads the headers for the different files.
+  - name: challenge_06_02
+    description: >
+      raw data nation and regions,
+      needed otherwise snowflake errors
+      when using all as views directly from stage.
+  - name: challenge_06_03
+    description: >
+      raw data constituencies,
+      needed otherwise snowflake errors
+      when using all as views directly from stage.
+  - name: challenge_06_02b
+    description: create polygons and aggregates
+  - name: challenge_06_03b
+    description: create polygons and aggregates
+  - name: challenge_06_04
+    description: '{{ doc("challenge06") }}'
+
+    
