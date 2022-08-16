@@ -24,3 +24,4 @@ COPY ./ /app/
 RUN chmod 777 -R /app
 WORKDIR /app/
 RUN dbt deps
+EXPOSE 8501
