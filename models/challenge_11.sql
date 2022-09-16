@@ -2,7 +2,8 @@
   config(
     materialized = 'table',
     post_hook=[" {{ ch11_create_tasks() }}",
-              " execute task dvd_frosty_whole_milk_updates;" ]
+              "execute task dvd_frosty_whole_milk_updates;",
+              "alter task dvd_frosty_whole_milk_updates suspend;" ]
  )
 }}
 {% set stage_name = 'dvd_frosty_fridays_11' %}
