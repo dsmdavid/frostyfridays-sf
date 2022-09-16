@@ -18,7 +18,6 @@
   {% set query_id = query_id_res.columns[0].values()[0] %}
 
 {% else %}
-  {{ log('nothing to do', info=True) }}
   {% set query_id = 'dummy' %}
 {% endif %}
 

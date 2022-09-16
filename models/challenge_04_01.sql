@@ -12,8 +12,6 @@
         schema = target.schema,
         name = stage_name,
         additional_info = stage_additional_info) }}
-{% else %}
-  {{ log('nothing to do', info=True) }}
 {% endif %}
 
 
