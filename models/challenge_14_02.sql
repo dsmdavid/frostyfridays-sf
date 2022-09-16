@@ -17,5 +17,7 @@ superpowers as (
    from base
 )
 select
-  object_construct_keep_null(*) as superhero_json
+  to_json(
+    object_construct_keep_null(*)
+   ) as superhero_json
 from superpowers
