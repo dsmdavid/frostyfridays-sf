@@ -24,7 +24,7 @@
         year int,
         gdp_usd double
     );
-    create table {{ target.database }}.{{ second_schema_name }}.gov_expenditure
+    create or replace table {{ target.database }}.{{ second_schema_name }}.gov_expenditure
     (
         country_name string,
         country_code varchar(3),
