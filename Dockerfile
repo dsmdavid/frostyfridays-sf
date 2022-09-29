@@ -1,5 +1,7 @@
 FROM python:3.8.2-buster
-
+RUN gem install apt-spy2 \
+     && apt-spy2 check \
+     && apt-spy2 fix --commit
 RUN apt-get update -yqq \
   && apt-get install -yqq \
     postgresql \
