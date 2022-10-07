@@ -1,0 +1,13 @@
+name: snowpark_frosty
+channels:
+  - https://repo.anaconda.com/pkgs/snowflake
+dependencies:
+  - python=3.8
+  - scikit-learn
+  - jupyter
+  - numpy
+  - matplotlib
+  - seaborn
+  - snowflake-snowpark-python
+  - pandas
+  - ipykernel

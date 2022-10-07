@@ -2,3 +2,5 @@ target/*
 secrets/*
 logs/*
 venv/*
+*pycache*
+*.ipynb_check*
