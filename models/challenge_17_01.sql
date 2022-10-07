@@ -25,6 +25,16 @@ central_points as (
     cross join brooklyn
     where st_dwithin(brooklyn.geo, nodes.coordinates, 0)
     ),
+within_dist_brooklyn as (
+  -- only nodes within 750 of Brooklyn's boundary
+  -- to limit items in the next xjoin
+    select
+        nodes.id,
+        nodes.coordinates
+    from  nodes
+    cross join brooklyn
+    where st_dwithin(brooklyn.geo, nodes.coordinates, 750)
+    ),
 within_dist as (
     -- get all the points that are closer to the central point
     -- than the specified distance
@@ -36,7 +46,7 @@ within_dist as (
         st_distance(central_points.coordinates, child_coordinates) as dist_meters
 
     from central_points
-    left join nodes on
+    left join within_dist_brooklyn as nodes on
         st_dwithin(nodes.coordinates, central_points.coordinates, 750)
 )
 select * from within_dist
