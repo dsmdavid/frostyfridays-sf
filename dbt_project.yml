@@ -19,6 +19,7 @@ target-path: "target"  # directory which will store compiled SQL files
 clean-targets: ["target", "dbt_modules", "dbt_packages"]
 
 models: 
+  +dbt-osmosis: "folder.yml"
   dbt_artifacts:
     +schema: dbt_artifacts
     staging:

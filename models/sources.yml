@@ -5,9 +5,100 @@ sources:
     schema: NEW_YORK
     tables:
       - name: V_OSM_NY_NODE
+        columns:
+          - name: COORDINATES
+          - name: TIMESTAMP
+          - name: VERSION
+          - name: LAT
+          - name: TYPE
+          - name: LON
+          - name: CHANGESET
+          - name: ID
+          - name: TAGS
+          - name: COUNTRY_IND
       - name: V_OSM_NY_BOUNDARY
+        columns:
+          - name: GEO
+          - name: ID
+          - name: NAME
+          - name: NAME_EN
+          - name: RANK
       - name: V_OSM_NY_AMENITY_OTHERS
 
+        columns:
+          - name: ADDR_POSTCODE
+          - name: ADDR_POSTAL_DISTRICT
+          - name: ADDR_CITY
+          - name: BRAND
+          - name: SERVICE_TIMES
+          - name: RECYCLING_CANS
+          - name: PAYMENT_COINS
+          - name: WASTE
+          - name: RELIGION
+          - name: BRAND_WIKIPEDIA
+          - name: CURRENCY_EUR
+          - name: OPENING_HOURS
+          - name: PAYMENT_NOTES
+          - name: TYPE
+          - name: DENOMINATION
+          - name: MAPILLARY
+          - name: MATERIAL
+          - name: FEE
+          - name: ACCESS
+          - name: ADDR_HOUSENUMBER
+          - name: EMAIL
+          - name: NOTE
+          - name: HERITAGE
+          - name: RUINS
+          - name: SOURCE
+          - name: COVERED
+          - name: BUILDING_LEVELS
+          - name: OPERATOR
+          - name: BARRIER
+          - name: REF_POL_ID
+          - name: SURVEY_DATE
+          - name: ADDR_STREET
+          - name: RECYCLING_CLOTHES
+          - name: UNISEX
+          - name: AREA
+          - name: POST_BOX_TYPE
+          - name: COLOUR
+          - name: SEATS
+          - name: ANGLICAN
+          - name: ID
+          - name: COORDINATES
+          - name: DRIVE_THROUGH
+          - name: ID_TYPE
+          - name: TOILETS_DISPOSAL
+          - name: VENDING
+          - name: PAYMENT_ACCOUNT_CARDS
+          - name: WIKIPEDIA
+          - name: START_DATE
+          - name: NAME_EN
+          - name: RECYCLING_GLASS
+          - name: RECYCLING_GLASS_BOTTLES
+          - name: BRAND_WIKIDATA
+          - name: ADDR_HOUSENAME
+          - name: ALT_NAME
+          - name: WIKIDATA
+          - name: SOURCE_GEOMETRY
+          - name: SOURCE_NAME
+          - name: AMENITY
+          - name: BUILDING
+          - name: COLLECTION_TIMES
+          - name: HISTORIC
+          - name: NAME
+          - name: SHELTER_TYPE
+          - name: REF
+          - name: NAME_GA
+          - name: RECYCLING_PAPER
+          - name: FIXME
+          - name: RECYCLING_TYPE
+          - name: BACKREST
+          - name: LANDUSE
+          - name: PHONE
+          - name: WEBSITE
+          - name: WHEELCHAIR
   - name: account_usage
     database: SNOWFLAKE
     schema: account_usage

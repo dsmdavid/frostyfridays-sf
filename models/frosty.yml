@@ -40,33 +40,44 @@ models:
       - name: size
       - name: md5
       - name: last_modified
+  - name: challenge_04_01
+    columns:
+      - name: ERA
+        description: the times we suffered
+      - name: HOUSE_INDEX
+      - name: HOUSE_NAME
+      - name: MONARCH_INDEX
+      - name: MONARCHS
+      - name: KEYS
   - name: challenge_04_02_aux
     columns:
       - name: KEY_NAME
+
   - name: challenge_04_03
     description: '{{ doc("challenge04") }}'
     columns:
-      - name: ID
-      - name: INTER_HOUSE_ID
-      - name: ERA
-      - name: HOUSE_NAME
       - name: AGE_AT_TIME_OF_DEATH
-      - name: BIRTH
-      - name: BURIAL_PLACE
-      - name: CONSORT__QUEEN_CONSORT_01
-      - name: CONSORT__QUEEN_CONSORT_02
-      - name: CONSORT__QUEEN_CONSORT_03
-      - name: DEATH
-      - name: DURATION
-      - name: END_OF_REIGN
-      - name: NICKNAME_01
-      - name: NICKNAME_02
       - name: NICKNAME_03
-      - name: PLACE_OF_BIRTH
-      - name: PLACE_OF_DEATH
+      - name: NICKNAME_01
+      - name: DURATION
       - name: START_OF_REIGN
+      - name: CONSORT__QUEEN_CONSORT_02
+      - name: CONSORT__QUEEN_CONSORT_01
+      - name: HOUSE_NAME
+      - name: BIRTH
+      - name: ID
+      - name: NICKNAME_02
       - name: NAME
+      - name: CONSORT__QUEEN_CONSORT_03
+      - name: PLACE_OF_BIRTH
+      - name: BURIAL_PLACE
+      - name: ERA
+        description: the times we suffered
+      - name: PLACE_OF_DEATH
+      - name: END_OF_REIGN
       - name: DUMMY
+      - name: DEATH
+      - name: INTER_HOUSE_ID
   - name: challenge_05
     description: '{{ doc("challenge05") }}'
     columns:
@@ -241,11 +252,15 @@ models:
       - name: EXAMPLE_IF_APPLICABLE
       - name: DEFINITIONAL_SYNONYMS
       - name: DEFINITIONAL_ANTONYMS
-  - name: challenge_04_01
+
+
+  - name: challenge_17_01
     columns:
-      - name: ERA
-      - name: HOUSE_INDEX
-      - name: HOUSE_NAME
-      - name: MONARCH_INDEX
-      - name: MONARCHS
-      - name: KEYS
+      - name: ID
+      - name: COORDINATES
+      - name: CHILD_ID
+      - name: CHILD_COORDINATES
+      - name: DIST_METERS
+  - name: challenge_17_02
+    columns:
+      - name: MULTIPOLYGON
