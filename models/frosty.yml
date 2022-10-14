@@ -249,3 +249,5 @@ models:
       - name: MONARCH_INDEX
       - name: MONARCHS
       - name: KEYS
+  - name: challenge_18_02
+    description: '{{ doc("challenge18") }}'

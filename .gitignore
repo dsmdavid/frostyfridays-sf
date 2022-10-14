@@ -5,3 +5,4 @@ venv/*
 *pycache*
 *.ipynb_check*
 dbt_packages/*
+*.pyc

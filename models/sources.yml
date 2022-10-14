@@ -1,5 +1,11 @@
 version: 2
 sources:
+  - name: marketplace_economy_atlas
+    database: ECONOMY_DATA_ATLAS
+    schema: ECONOMY
+    tables:
+      - name: BEANIPA
+
   - name: marketplace_map
     database: MARKETPLACE_NEWYORK_SHARE
     schema: NEW_YORK
