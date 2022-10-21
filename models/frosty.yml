@@ -1,0 +1,255 @@
+version: 2
+models:
+  - name: challenge_01
+    description: '{{ doc("challenge01") }}'
+    columns:
+      - name: result
+        description: whatever existed here.
+      - name: METADATA$FILENAME
+      - name: METADATA$FILE_ROW_NUMBER
+  - name: challenge_02
+    description: base table derived from the parquet file.
+    columns:
+      - name: CITY
+      - name: COUNTRY
+      - name: COUNTRY_CODE
+      - name: DEPT
+      - name: EDUCATION
+      - name: EMAIL
+      - name: EMPLOYEE_ID
+      - name: FIRST_NAME
+      - name: JOB_TITLE
+      - name: LAST_NAME
+      - name: PAYROLL_IBAN
+      - name: POSTCODE
+      - name: STREET_NAME
+      - name: STREET_NUM
+      - name: TIME_ZONE
+      - name: TITLE
+  - name: challenge_02_v
+    description: '{{ doc("challenge02") }}'
+    columns:
+      - name: EMPLOYEE_ID
+      - name: DEPT
+      - name: JOB_TITLE
+  - name: challenge_03
+    description: '{{ doc("challenge03") }}'
+    columns:
+      - name: name
+        description: original filename including path
+      - name: size
+      - name: md5
+      - name: last_modified
+  - name: challenge_04_02_aux
+    columns:
+      - name: KEY_NAME
+  - name: challenge_04_03
+    description: '{{ doc("challenge04") }}'
+    columns:
+      - name: ID
+      - name: INTER_HOUSE_ID
+      - name: ERA
+      - name: HOUSE_NAME
+      - name: AGE_AT_TIME_OF_DEATH
+      - name: BIRTH
+      - name: BURIAL_PLACE
+      - name: CONSORT__QUEEN_CONSORT_01
+      - name: CONSORT__QUEEN_CONSORT_02
+      - name: CONSORT__QUEEN_CONSORT_03
+      - name: DEATH
+      - name: DURATION
+      - name: END_OF_REIGN
+      - name: NICKNAME_01
+      - name: NICKNAME_02
+      - name: NICKNAME_03
+      - name: PLACE_OF_BIRTH
+      - name: PLACE_OF_DEATH
+      - name: START_OF_REIGN
+      - name: NAME
+      - name: DUMMY
+  - name: challenge_05
+    description: '{{ doc("challenge05") }}'
+    columns:
+      - name: START_INT
+  - name: challenge_05_01
+    columns:
+      - name: START_INT
+      - name: TIMES_THREE
+  - name: challenge_06_01
+    description: Reads the headers for the different files.
+    columns:
+      - name: FILE_NAME
+      - name: RN
+      - name: HEADERS
+  - name: challenge_06_02
+    description: >
+      raw data nation and regions,
+      needed otherwise snowflake errors
+      when using all as views directly from stage.
+    columns:
+      - name: NATION_OR_REGION_NAME
+      - name: TYPE
+      - name: SEQUENCE_NUM
+      - name: LONGITUDE
+      - name: LATITUDE
+      - name: PART
+  - name: challenge_06_02b
+    description: create polygons and aggregates
+    columns:
+      - name: NATION_OR_REGION_NAME
+      - name: POLYGON_
+  - name: challenge_06_03
+    description: >
+      raw data constituencies,
+      needed otherwise snowflake errors
+      when using all as views directly from stage.
+    columns:
+      - name: CONSTITUENCY
+      - name: SEQUENCE_NUM
+      - name: LONGITUDE
+      - name: LATITUDE
+      - name: PART
+  - name: challenge_06_03b
+    description: create polygons and aggregates
+    columns:
+      - name: CONSTITUENCY
+      - name: POLYGON_
+  - name: challenge_06_04
+    description: '{{ doc("challenge06") }}'
+
+    columns:
+      - name: NATION_OR_REGION
+      - name: INTERSECTING_CONSTITUENCIES
+  - name: challenge_07
+    description: '{{ doc("challenge07") }}'
+    columns:
+      - name: TAG_NAME
+      - name: TAG_VALUE
+      - name: TABLE_NAME
+      - name: ROLE_NAME
+      - name: MIN_QUERY_ID
+      - name: RUN_AT
+  - name: challenge_08
+    columns:
+      - name: FILENAME_
+      - name: ROW_
+      - name: PAYMENT_DATE
+      - name: CARD_TYPE
+      - name: AMOUNT_SPENT
+  - name: challenge_09_00
+    columns:
+      - name: DUMMY
+  - name: challenge_09_01
+    columns:
+      - name: FIRST_NAME
+      - name: LAST_NAME
+      - name: HERO_NAME
+  - name: challenge_09_02
+    columns:
+      - name: FIRST_NAME
+      - name: LAST_NAME
+      - name: HERO_NAME
+  - name: challenge_09_03
+    columns:
+      - name: FIRST_NAME
+      - name: LAST_NAME
+      - name: HERO_NAME
+  - name: challenge_09_04
+    description: '{{ doc("challenge09") }}'
+    columns:
+      - name: FIRST_NAME
+      - name: LAST_NAME
+      - name: HERO_NAME
+      - name: ROLE_
+  - name: challenge_10
+    columns:
+      - name: FILENAME_
+      - name: ROW_
+      - name: RESULT
+  - name: challenge_11
+    description: '{{ doc("challenge11") }}'
+    columns:
+      - name: MILKING_DATETIME
+      - name: COW_NUMBER
+      - name: FAT_PERCENTAGE
+      - name: FARM_CODE
+      - name: CENTRIFUGE_START_TIME
+      - name: CENTRIFUGE_END_TIME
+      - name: CENTRIFUGE_KWPH
+      - name: CENTRIFUGE_ELECTRICITY_USED
+      - name: CENTRIFUGE_PROCESSING_TIME
+      - name: TASK_USED
+  - name: challenge_11_01
+    columns:
+      - name: TASK_USED
+      - name: N_ROWS
+  - name: challenge_12_01
+    description: '{{ doc("challenge12") }}'
+    columns:
+      - name: DUMMY
+  - name: challenge_13_01
+    columns:
+      - name: ID
+      - name: PRODUCT
+      - name: STOCK_AMOUNT
+      - name: DATE_OF_CHECK
+  - name: challenge_13_02
+    description: '{{ doc("challenge13") }}'
+    columns:
+      - name: PRODUCT
+      - name: STOCK_AMOUNT
+      - name: STOCK_AMOUNT_FILLED_OUT
+      - name: DATE_OF_CHECK
+  - name: challenge_14_01
+    columns:
+      - name: SUPERHERO_NAME
+      - name: COUNTRY_OF_RESIDENCE
+      - name: NOTABLE_EXPLOITS
+      - name: SUPERPOWER
+      - name: SECOND_SUPERPOWER
+      - name: THIRD_SUPERPOWER
+  - name: challenge_14_02
+    description: '{{ doc("challenge14") }}'
+    columns:
+      - name: SUPERHERO_JSON
+  - name: challenge_15_01
+    columns:
+      - name: SALE_DATE
+        description: the date of the sale, will it be present downstream?
+      - name: PRICE
+  - name: challenge_15_02
+    description: '{{ doc("challenge15") }}'
+    columns:
+      - name: SALE_DATE
+        description: the date of the sale, will it be present downstream?
+      - name: PRICE
+      - name: BUCKET_SET_1
+      - name: BUCKET_SET_2
+      - name: BUCKET_SET_3
+  - name: challenge_16_01
+    columns:
+      - name: FILENAME_
+      - name: ROW_
+      - name: RESULT
+  - name: challenge_16_02
+    columns:
+      - name: WORD
+      - name: URL
+      - name: GENERAL_ANTONYMS
+      - name: GENERAL_SYNONYMS
+      - name: DEFINITION
+      - name: EXAMPLE_IF_APPLICABLE
+      - name: DEFINITIONAL_SYNONYMS
+      - name: DEFINITIONAL_ANTONYMS
+  - name: challenge_04_01
+    columns:
+      - name: ERA
+      - name: HOUSE_INDEX
+      - name: HOUSE_NAME
+      - name: MONARCH_INDEX
+      - name: MONARCHS
+      - name: KEYS
+  - name: challenge_18_02
+    description: '{{ doc("challenge18") }}'
+  - name: challenge_19
+    description: '{{ doc("challenge19") }}'
