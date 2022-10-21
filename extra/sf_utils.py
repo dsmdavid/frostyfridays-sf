@@ -8,17 +8,15 @@ from cryptography.hazmat.primitives import serialization
 
 SF_USER = os.getenv('dvd_sf_user')
 SF_PWD = os.getenv('dvd_sf_passphrase')
-SF_KEY_PATH = os.getenv('dvd_key_path','/root/.ssh/rsa_key_david_sf.p8')
+SF_KEY_PATH = os.getenv('dvd_key_path',os.getenv('dvd_frosty_local_path_to_key','/root/.ssh/rsa_key_david_sf.p8'))
 SF_ACCOUNT = os.getenv('dvd_sf_account')
 SF_DATABASE = os.getenv('dvd_sf_db')
 SF_SCHEMA = os.getenv('dvd_sf_schema')
-SF_WAREHOUSE = os.getenv('dvd_sf_wh')
+SF_WAREHOUSE = os.getenv('dvd_frosty_wh')
 SF_ROLE = os.getenv('dvd_sf_role')
 
-
-def get_ctx():
-
-    with open(SF_KEY_PATH, "rb") as key:
+def get_pkb(path):
+    with open(path, "rb") as key:
         p_key= serialization.load_pem_private_key(
             key.read(),
             password=SF_PWD.encode(),
@@ -29,11 +27,12 @@ def get_ctx():
         encoding=serialization.Encoding.DER,
         format=serialization.PrivateFormat.PKCS8,
         encryption_algorithm=serialization.NoEncryption())
-
+    return pkb
+def get_ctx():
     ctx = snowflake.connector.connect(
         user=SF_USER,
         account=SF_ACCOUNT,
-        private_key=pkb,
+        private_key=get_pkb(SF_KEY_PATH),
         warehouse=SF_WAREHOUSE,
         database=SF_DATABASE,
         schema=SF_SCHEMA,
@@ -42,11 +41,23 @@ def get_ctx():
 
     return ctx
 
+CONN_PARAM = {
+   "account": SF_ACCOUNT,
+   "user": SF_USER,
+   "warehouse": SF_WAREHOUSE,
+   "role": SF_ROLE,
+   "database": SF_DATABASE,
+   "schema": SF_SCHEMA,
+   "private_key": get_pkb(SF_KEY_PATH)
+}
+
 if __name__ == '__main__':
-    ctx = get_ctx()
-    query = """
-SELECT * FROM TEST_DB.DVD_FROSTY_FRIDAYS.CHALLENGE_08;
-"""
-    cur = ctx.cursor().execute(query)
-    print(cur)
+    print(CONN_PARAM)
+#     ctx = get_ctx()
+
+#     query = """
+# SELECT * FROM TEST_DB.DVD_FROSTY_FRIDAYS.CHALLENGE_08;
+# """
+#     cur = ctx.cursor().execute(query)
+#     print(cur)
 

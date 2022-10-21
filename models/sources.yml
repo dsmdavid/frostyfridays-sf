@@ -1,0 +1,117 @@
+version: 2
+sources:
+  - name: marketplace_economy_atlas
+    database: ECONOMY_DATA_ATLAS
+    schema: ECONOMY
+    tables:
+      - name: BEANIPA
+
+  - name: marketplace_map
+    database: MARKETPLACE_NEWYORK_SHARE
+    schema: NEW_YORK
+    tables:
+      - name: V_OSM_NY_NODE
+      - name: V_OSM_NY_BOUNDARY
+      - name: V_OSM_NY_AMENITY_OTHERS
+
+  - name: account_usage
+    database: SNOWFLAKE
+    schema: account_usage
+    tables:
+      - name: access_history
+        columns:
+          - name: QUERY_START_TIME
+          - name: USER_NAME
+          - name: OBJECTS_MODIFIED
+          - name: DIRECT_OBJECTS_ACCESSED
+          - name: BASE_OBJECTS_ACCESSED
+          - name: QUERY_ID
+      - name: tag_references
+        columns:
+          - name: TAG_DATABASE
+          - name: OBJECT_DATABASE
+          - name: TAG_ID
+          - name: TAG_NAME
+          - name: OBJECT_NAME
+          - name: OBJECT_DELETED
+          - name: DOMAIN
+          - name: COLUMN_NAME
+          - name: OBJECT_SCHEMA
+          - name: TAG_SCHEMA
+          - name: OBJECT_ID
+          - name: TAG_VALUE
+          - name: COLUMN_ID
+      - name: query_history
+        columns:
+          - name: BYTES_SCANNED
+          - name: ERROR_CODE
+          - name: INBOUND_DATA_TRANSFER_CLOUD
+          - name: EXTERNAL_FUNCTION_TOTAL_SENT_BYTES
+          - name: CREDITS_USED_CLOUD_SERVICES
+          - name: INBOUND_DATA_TRANSFER_BYTES
+          - name: DATABASE_NAME
+          - name: DATABASE_ID
+          - name: SESSION_ID
+          - name: BYTES_WRITTEN
+          - name: BYTES_WRITTEN_TO_RESULT
+          - name: ROWS_DELETED
+          - name: PARTITIONS_TOTAL
+          - name: COMPILATION_TIME
+          - name: RELEASE_VERSION
+          - name: WAREHOUSE_NAME
+          - name: ROWS_INSERTED
+          - name: QUERY_TAG
+          - name: EXTERNAL_FUNCTION_TOTAL_RECEIVED_ROWS
+          - name: EXTERNAL_FUNCTION_TOTAL_RECEIVED_BYTES
+          - name: USER_NAME
+          - name: ERROR_MESSAGE
+          - name: OUTBOUND_DATA_TRANSFER_CLOUD
+          - name: WAREHOUSE_TYPE
+          - name: QUEUED_OVERLOAD_TIME
+          - name: QUERY_ACCELERATION_UPPER_LIMIT_SCALE_FACTOR
+          - name: ROWS_UPDATED
+          - name: PARTITIONS_SCANNED
+          - name: WAREHOUSE_ID
+          - name: QUEUED_PROVISIONING_TIME
+          - name: BYTES_DELETED
+          - name: PERCENTAGE_SCANNED_FROM_CACHE
+          - name: SCHEMA_NAME
+          - name: BYTES_READ_FROM_RESULT
+          - name: BYTES_SENT_OVER_THE_NETWORK
+          - name: LIST_EXTERNAL_FILES_TIME
+          - name: EXTERNAL_FUNCTION_TOTAL_SENT_ROWS
+          - name: END_TIME
+          - name: IS_CLIENT_GENERATED_STATEMENT
+          - name: TRANSACTION_BLOCKED_TIME
+          - name: ROWS_PRODUCED
+          - name: EXECUTION_TIME
+          - name: CLUSTER_NUMBER
+          - name: EXECUTION_STATUS
+          - name: START_TIME
+          - name: ROWS_UNLOADED
+          - name: OUTBOUND_DATA_TRANSFER_REGION
+          - name: QUERY_TEXT
+          - name: QUERY_ACCELERATION_BYTES_SCANNED
+          - name: BYTES_SPILLED_TO_REMOTE_STORAGE
+          - name: QUERY_ID
+          - name: OUTBOUND_DATA_TRANSFER_BYTES
+          - name: WAREHOUSE_SIZE
+          - name: QUERY_LOAD_PERCENT
+          - name: SCHEMA_ID
+          - name: TOTAL_ELAPSED_TIME
+          - name: QUERY_TYPE
+          - name: QUEUED_REPAIR_TIME
+          - name: QUERY_ACCELERATION_PARTITIONS_SCANNED
+          - name: ROLE_NAME
+          - name: INBOUND_DATA_TRANSFER_REGION
+          - name: BYTES_SPILLED_TO_LOCAL_STORAGE
+          - name: EXTERNAL_FUNCTION_TOTAL_INVOCATIONS
+  - name: ch_09
+    database: '{{ target.database }}'
+    schema: '{{ target.schema }}'
+    tables:
+      - name: data_to_be_masked
+        columns:
+          - name: LAST_NAME
+          - name: FIRST_NAME
+          - name: HERO_NAME
