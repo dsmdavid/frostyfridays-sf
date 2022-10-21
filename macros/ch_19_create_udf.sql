@@ -9,6 +9,7 @@ returns numeric(11, 2)
     FROM test_db.dvd_frosty_fridays.challenge_19
     WHERE
         not is_holiday
+        and day_of_week < 6 --exclude weekends
         and date_day >= START_DATE::date
         and date_day < dateadd('day', CASE WHEN INCLUDE_UPPER THEN 1 ELSE 0 END, END_DATE::DATE)
     $$
