@@ -1,4 +1,6 @@
 {% macro init_challenge_10() %}
+{% if execute %}
+
   {{ log('Starting challenge_10 pre-work', info=True)}}
   {% set table_name = 'challenge_10_insert'%}
   {% set xs_wh_name = 'wh_dvd_frosty_xsmall'%}
@@ -93,5 +95,7 @@ AS
   {{ log(stored_procedure_query)}}
   {% do run_query(stored_procedure_query) %}
   {{ log('Query for sp challenge_10 ran', info=True)}}
+
+{% endif%}
 
 {% endmacro %}
