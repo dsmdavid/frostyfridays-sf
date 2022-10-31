@@ -48,9 +48,11 @@ jobs:
         run: "pip install -r requirements.txt"
       - name: install aws
         run: |
+          echo "Starting apt-spy"
           sudo gem install apt-spy2
           sudo apt-spy2 check
           sudo apt-spy2 fix --commit
+          echo "Starting apt-get"
           sudo apt-get update
           sudo apt-get install -yqq awscli
       - name: dbt docs generate
