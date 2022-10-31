@@ -52,8 +52,10 @@ jobs:
           sudo gem install apt-spy2
           sudo apt-spy2 check
           sudo apt-spy2 fix --commit
+          sudo sed -i 's/utah\.//' /etc/apt/sources.list
           echo "Starting apt-get update"
           sudo apt-get update
+          sudo sed -i 's/utah\.//' /etc/apt/sources.list
           echo "Starting apt-get install"
           sudo apt-get install -yqq awscli
       - name: dbt docs generate
