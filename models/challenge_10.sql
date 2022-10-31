@@ -1,6 +1,6 @@
 {{
   config(
-    materialized = 'view'
+    materialized = 'table'
  )
 }}
 {% set stage_name = 'dvd_frosty_fridays_10' %}
@@ -14,12 +14,15 @@
         additional_info = stage_additional_info) }}
 {% endif %}
 
+{% if execute %}
+  {{ init_challenge_10() }}
 
-with staged as (
-    select 
-      metadata$filename as filename_,
-      metadata$file_row_number as row_,
-      $1 as result from @{{stage_name}}
-    order by 1,2
-)
-select * from staged
+  {% set query %}
+    call ch10_dynamic_warehouse_data_load();
+  {% endset %}
+  {% do run_query(query) %}
+{% endif %}
+select 
+  *, 
+  current_timestamp() as ingested_at
+from table(RESULT_SCAN(LAST_QUERY_ID()))
