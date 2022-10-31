@@ -52,8 +52,9 @@ jobs:
           sudo gem install apt-spy2
           sudo apt-spy2 check
           sudo apt-spy2 fix --commit
-          echo "Starting apt-get"
+          echo "Starting apt-get update"
           sudo apt-get update
+          echo "Starting apt-get install"
           sudo apt-get install -yqq awscli
       - name: dbt docs generate
         run: |
