@@ -1,0 +1,7 @@
+target/
+dbt_packages/
+/app/dbt_packages/
+macros/
+models/challenge_20*
+*challenge_04_03.sql
+*challenge_10.sql

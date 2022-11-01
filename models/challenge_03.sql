@@ -7,31 +7,33 @@
 {% set stage_additional_info = "url='s3://frostyfridaychallenges/challenge_3/' file_format=(type=csv)" %}
 
 {%- if execute %}
-  {{ create_stage(
+{{ create_stage(
         database = target.database,
         schema = target.schema,
         name = stage_name,
         additional_info = stage_additional_info) }}
-    
-  {% do run_query("list @" ~ stage_name  ) %}
-  {% set query_id_res = run_query("select last_query_id()") %}
-  {% set query_id = query_id_res.columns[0].values()[0] %}
+
+{% do run_query("list @" ~ stage_name  ) %}
+{% set query_id_res = run_query("select last_query_id()") %}
+{% set query_id = query_id_res.columns[0].values()[0] %}
 
 {% else %}
   {% set query_id = 'dummy' %}
 {% endif %}
 
-with lq as (
-  select * from table(
-    result_scan('{{ query_id }}')
-    )
+WITH lq AS (
+        SELECT * FROM table(
+            result_scan('{{ query_id }}')
+        )
 ),
-kws as (
-  select $1 as kw
-  from @{{stage_name}}
-  where metadata$filename ilike '%keywords.csv')
-select lq.* 
-from lq 
-cross join kws
-where lq."name" ilike '%'||kws.kw||'%'
 
+kws AS (
+    SELECT $1 AS kw
+    FROM @{{ stage_name }}
+    WHERE metadata$filename ILIKE '%keywords.csv'
+)
+
+SELECT lq.*
+FROM lq
+    CROSS JOIN kws
+WHERE lq."name" ILIKE '%' || kws.kw || '%'

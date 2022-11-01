@@ -9,10 +9,12 @@
     [250000,290001,320000,360000,410000,470001]
 ]
 %}
-select
+SELECT
     sale_date,
     price,
-    {%- for arr in arrays %}
-    {{target.schema}}.udf_set_bins(price, {{ arr }}) as bucket_set_{{loop.index}} {% if not loop.last%},{% endif%}
+    {% for arr in arrays %}
+    {{ target.schema }}.udf_set_bins(
+        price, {{ arr }}
+    ) AS bucket_set_{{ loop.index }}{% if not loop.last %}, {% endif %}
     {%- endfor %}
-from {{ ref('challenge_15_01') }}
+FROM {{ ref('challenge_15_01') }}

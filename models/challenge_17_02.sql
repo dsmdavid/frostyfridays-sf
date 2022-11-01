@@ -5,21 +5,22 @@
 }}
 
 --
-with morethanthree as (
-    select id 
-    from {{ ref('challenge_17_01') }} 
-    group by 1
-    having count(*) > 3
+WITH morethanthree AS (
+    SELECT id
+    FROM {{ ref('challenge_17_01') }}
+    GROUP BY 1
+    HAVING count(*) > 3
 ),
-boxes as (
-    select 
+
+boxes AS (
+    SELECT
         m.id,
-        st_envelope(st_collect(child_coordinates)) as bounding_box
-    from morethanthree as m
-    left join {{ ref('challenge_17_01') }} as n 
-        on m.id = n.id
-    group by 1
-    )
-select 
-ST_ASWKT(    st_collect(bounding_box) ) as multipolygon
-from boxes
+        st_envelope(st_collect(child_coordinates)) AS bounding_box
+    FROM morethanthree AS m
+        LEFT JOIN {{ ref('challenge_17_01') }} AS n
+            ON m.id = n.id
+    GROUP BY 1
+)
+
+SELECT st_aswkt(st_collect(bounding_box)) AS multipolygon
+FROM boxes

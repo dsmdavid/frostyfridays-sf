@@ -4,24 +4,26 @@
     )
 }}
 
-with sample_ as (
-select result from {{ ref('challenge_16_01') }}
+WITH sample_ AS (
+    SELECT result FROM {{ ref('challenge_16_01') }}
 ),
-parsed as (
-select 
-    result:word::varchar as word,
-    result:url::varchar as url,
 
-    m.value:antonyms as general_antonyms,
-    m.value:synonyms as general_synonyms,
+parsed AS (
+    SELECT
+        result:word::varchar AS word,
+        result:url::varchar AS url,
 
-    d.value:definition::varchar as definition,
-    d.value:example::varchar as example_if_applicable,
-    d.value:synonyms as definitional_synonyms,
-    d.value:antonyms as definitional_antonyms
-    from sample_
-    , lateral flatten(result:definition, outer => true) as r
-    , lateral flatten(r.value:meanings, outer => true) as m
-    , lateral flatten(m.value:definitions, outer => true) as d
+        m.value:antonyms AS general_antonyms,
+        m.value:synonyms AS general_synonyms,
+
+        d.value:definition::varchar AS definition,
+        d.value:example::varchar AS example_if_applicable,
+        d.value:synonyms AS definitional_synonyms,
+        d.value:antonyms AS definitional_antonyms
+    FROM sample_,
+        LATERAL flatten(result:definition, outer => true) AS r,
+        LATERAL flatten(r.value:meanings, outer => true) AS m,
+        LATERAL flatten(m.value:definitions, outer => true) AS d
 )
-select * from parsed
+
+SELECT * FROM parsed

@@ -7,29 +7,27 @@
 {% set stage_additional_info = "url='s3://frostyfridaychallenges/challenge_16/' file_format=dvd_frosty_fridays_json" %}
 
 {%- if execute %}
-  {% set sql %}
+{% set sql %}
   create or replace file format dvd_frosty_fridays_json
     type = json
     strip_outer_array = TRUE
   {% endset %}
-  {% do run_query(sql) %}
+{% do run_query(sql) %}
 
-  {{ create_stage(
+{{ create_stage(
         database = target.database,
         schema = target.schema,
         name = stage_name,
         additional_info = stage_additional_info) }}
 {% endif %}
-
-
-with staged as (
-    select 
-      metadata$filename as filename_,
-      metadata$file_row_number as row_,
-      t.$1 as result 
-      from @{{stage_name}} 
-       (pattern=>'.*week16.*')
-       as t
-    order by 1,2
+-- noqa: disable=L028
+WITH staged AS (
+    SELECT
+        metadata$filename AS filename_,
+        metadata$file_row_number AS row_,
+        t.$1 AS result
+    FROM @{{ stage_name }} (PATTERN=> '.*week16.*') AS t
+    ORDER BY 1, 2
 )
-select * from staged
+
+SELECT * FROM staged

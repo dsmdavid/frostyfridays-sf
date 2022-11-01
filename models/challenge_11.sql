@@ -10,7 +10,7 @@
 {% set stage_additional_info = "url='s3://frostyfridaychallenges/challenge_11/' file_format=(type=csv SKIP_HEADER =1)" %}
 
 {%- if execute %}
-  {{ create_stage(
+{{ create_stage(
         database = target.database,
         schema = target.schema,
         name = stage_name,
@@ -18,19 +18,19 @@
 {% endif %}
 
 
-with staged as (
-select
-        m.$1 as milking_datetime,
-        m.$2 as cow_number,
-        m.$3 as fat_percentage,
-        m.$4 as farm_code,
-        m.$5 as centrifuge_start_time,
-        m.$6 as centrifuge_end_time,
-        m.$7 as centrifuge_kwph,
-        m.$8 as centrifuge_electricity_used,
-        m.$9 as centrifuge_processing_time,
-        m.$10 as task_used
-from  @{{stage_name}} (pattern => '.*milk_data.*[.]csv') m
-
+WITH staged AS (
+    SELECT
+        m.$1 AS milking_datetime,
+        m.$2 AS cow_number,
+        m.$3 AS fat_percentage,
+        m.$4 AS farm_code,
+        m.$5 AS centrifuge_start_time,
+        m.$6 AS centrifuge_end_time,
+        m.$7 AS centrifuge_kwph,
+        m.$8 AS centrifuge_electricity_used,
+        m.$9 AS centrifuge_processing_time,
+        m.$10 AS task_used
+    FROM @{{ stage_name }} (PATTERN => '.*milk_data.*[.]csv') AS m
 )
-select * from staged
+
+SELECT * FROM staged

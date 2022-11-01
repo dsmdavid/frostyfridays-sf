@@ -10,17 +10,19 @@
 {% endcall %}
 {% set unique_keys = load_result('unique_keys') %}
 
-with temp as (
-    select * from {{ ref('challenge_04_01') }}),
-prep as (
-select 
-    row_number() over (order by temp.monarchs['Birth'] asc ) as id,
-    temp.monarch_index+1 as inter_house_id,
-    temp.era,
-    temp.house_name,
-    {%- if execute %}
-    {%- for key_name in unique_keys['data'] %}
-    {%- if key_name[0] not in ('Consort\/Queen Consort','Nickname')%}
+WITH temp AS (
+        SELECT * FROM {{ ref('challenge_04_01') }}
+    ),
+
+    prep AS (
+        SELECT
+            row_number() OVER (ORDER BY temp.monarchs['Birth'] ASC) AS id,
+            temp.monarch_index + 1 AS inter_house_id,
+            temp.era,
+            temp.house_name, -- block below
+    {%- if execute -%}
+    {%- for key_name in unique_keys['data'] -%}
+    {%- if key_name[0] not in ('Consort\/Queen Consort','Nickname') -%}
     temp.monarchs:"{{ key_name[0] }}"::
       {%- if key_name[0] | lower in ('birth','date','end of reign','start of reign') -%}
       date
@@ -33,8 +35,10 @@ select
     temp.monarchs:"{{ key_name[0] }}"[2]::varchar as {{ modules.re.sub('[^a-zA-Z]','_',key_name[0] | upper ) }}_03,
     {%- endif %}
     {%- endfor %}
-    {% endif %}
+{%- endif %}
 
-    1 as dummy
-from temp)
-select * from prep
+            1 AS dummy
+        FROM temp
+    )
+
+SELECT * FROM prep

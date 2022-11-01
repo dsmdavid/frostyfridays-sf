@@ -8,25 +8,25 @@
 {% set stage_additional_info = "url='s3://frostyfridaychallenges/challenge_6/' file_format=(type=csv SKIP_HEADER =1 FIELD_OPTIONALLY_ENCLOSED_BY='\"')" %}
 
 {%- if execute %}
-  {{ create_stage(
+{{ create_stage(
         database = target.database,
         schema = target.schema,
         name = stage_name,
         additional_info = stage_additional_info) }}
 
-  {% set query %}
+{% set query %}
     select headers from {{ ref('challenge_06_01') }}
     where file_name ilike '%westminster%'
   {% endset %}
-  {% set results_query = run_query(query) %}
-  {% set results = results_query.columns[0].values()[0].split(',') %}
-  {{ log(results, info = True)}}
+{% set results_query = run_query(query) %}
+{% set results = results_query.columns[0].values()[0].split(',') %}
+{{ log(results, info = True) }}
 {% endif %}
 
 
-select
-  {% for item in results %}
-  ${{ loop.index }}::varchar(50) as {{ item }}{% if not loop.last %},{% endif %}
-  {% endfor %}
-from @{{ stage_name }}
-where metadata$filename ilike '%westminster%'
+SELECT
+    {% for item in results %}
+    ${{ loop.index }}::varchar(50) AS {{ item }}{% if not loop.last %}, {% endif %}
+    {% endfor %}
+FROM @{{ stage_name }}
+WHERE metadata$filename ILIKE '%westminster%'

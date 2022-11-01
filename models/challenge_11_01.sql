@@ -3,12 +3,13 @@
     materialized = 'view'
   )
 }}
-with base as (
-  select * from {{ ref('challenge_11') }}
+WITH base AS (
+        SELECT * FROM {{ ref('challenge_11') }}
 )
-select
-  task_used,
-  count(*) as n_rows
-from base
-group by 1
-order by 2 desc
+
+SELECT
+    task_used,
+    count(*) AS n_rows
+FROM base
+GROUP BY 1
+ORDER BY 2 DESC

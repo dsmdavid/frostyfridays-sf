@@ -1,4 +1,4 @@
--- depends on: {{ ref('challenge_09_00')}}
+-- depends on: {{ ref('challenge_09_00') }}
 {{
   config(
     materialized = 'table',
@@ -6,16 +6,23 @@
  )
 }}
 {% set roles = [1,2,3] %}
-with
+WITH -- noqa: L018
 {%- for role in roles %}
- role_{{role}} as (
-  select *, 'role_{{role}}' as role_ from {{ ref('challenge_09_0' ~ (role|string)) }}
-){% if not loop.last %},{% endif %}
+
+    role_{{ role }} AS (
+        SELECT
+            *,
+            'role_{{ role }}' AS role_
+        FROM {{ ref('challenge_09_0' ~ (role|string)) }}
+
+    ){% if not loop.last %}, {% endif %}-- noqa: L018
 {%- endfor -%}
 
 {%- for role in roles %}
-select * from role_{{role}}
+SELECT * FROM role_{{ role }}
 {%- if not loop.last %}
-union all
-{%- endif -%}
-{%- endfor -%}
+UNION ALL
+{%- endif %}
+{%- endfor %}
+
+-- end block

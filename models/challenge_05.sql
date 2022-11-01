@@ -4,5 +4,5 @@
  )
 }}
 
-select seq4() as start_int
-from table(generator(rowcount => 10)) v
+SELECT seq4() AS start_int
+FROM table(generator(rowcount => 10))

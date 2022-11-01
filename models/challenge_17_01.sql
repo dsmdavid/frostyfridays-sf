@@ -5,48 +5,55 @@
 }}
 
 --
-with brooklyn as (
-    select name, geo
-    from {{ source('marketplace_map', 'V_OSM_NY_BOUNDARY') }}
-    where name ='Brooklyn'
+WITH brooklyn AS (
+    SELECT
+        name,
+        geo
+    FROM {{ source('marketplace_map', 'V_OSM_NY_BOUNDARY') }}
+    WHERE name = 'Brooklyn'
 ),
-nodes as (
-    select 
+
+nodes AS (
+    SELECT
         id,
         coordinates
-    from {{ source('marketplace_map', 'V_OSM_NY_AMENITY_OTHERS') }}
+    FROM {{ source('marketplace_map', 'V_OSM_NY_AMENITY_OTHERS') }}
 ),
-central_points as (
+
+central_points AS (
     -- only nodes Inside brooklyn
-    select
+    SELECT
         nodes.id,
         nodes.coordinates
-    from  nodes
-    cross join brooklyn
-    where st_dwithin(brooklyn.geo, nodes.coordinates, 0)
-    ),
-within_dist_brooklyn as (
-  -- only nodes within 750 of Brooklyn's boundary
-  -- to limit items in the next xjoin
-    select
+    FROM nodes
+        CROSS JOIN brooklyn
+    WHERE st_dwithin(brooklyn.geo, nodes.coordinates, 0)
+),
+
+within_dist_brooklyn AS (
+    -- only nodes within 750 of Brooklyn's boundary
+    -- to limit items in the next xjoin
+    SELECT
         nodes.id,
         nodes.coordinates
-    from  nodes
-    cross join brooklyn
-    where st_dwithin(brooklyn.geo, nodes.coordinates, 750)
-    ),
-within_dist as (
+    FROM nodes
+        CROSS JOIN brooklyn
+    WHERE st_dwithin(brooklyn.geo, nodes.coordinates, 750)
+),
+
+within_dist AS (
     -- get all the points that are closer to the central point
     -- than the specified distance
-    select
+    SELECT
         central_points.id,
         central_points.coordinates,
-        nodes.id as child_id,
-        nodes.coordinates as child_coordinates,
-        st_distance(central_points.coordinates, child_coordinates) as dist_meters
+        nodes.id AS child_id,
+        nodes.coordinates AS child_coordinates,
+        st_distance(central_points.coordinates, child_coordinates) AS dist_meters
 
-    from central_points
-    left join within_dist_brooklyn as nodes on
-        st_dwithin(nodes.coordinates, central_points.coordinates, 750)
+    FROM central_points
+        LEFT JOIN within_dist_brooklyn AS nodes ON
+            st_dwithin(nodes.coordinates, central_points.coordinates, 750)
 )
-select * from within_dist
+
+SELECT * FROM within_dist

@@ -15,7 +15,7 @@ $$;"]
  )
 }}
 
-select 
-  start_int,
-  timesthree(start_int) as times_three
-from {{ ref('challenge_05') }}
+SELECT
+    start_int,
+    timesthree(start_int) AS times_three
+FROM {{ ref('challenge_05') }}

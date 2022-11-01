@@ -5,22 +5,25 @@
 }}
 
 
-with constituencies as (
-    select * from {{ ref('challenge_06_03b') }}
+WITH constituencies AS (
+    SELECT * FROM {{ ref('challenge_06_03b') }}
 ),
-nation_or_region_name as (
-    select * from {{ ref('challenge_06_02b') }}
+
+nation_or_region_name AS (
+    SELECT * FROM {{ ref('challenge_06_02b') }}
 ),
-final as (
-    select
-        nation_or_region_name.nation_or_region_name::varchar(50) as nation_or_region,
-        count(*) as intersecting_constituencies
-    from nation_or_region_name
-    cross join constituencies
-    where st_intersects(
+
+final AS (
+    SELECT
+        nation_or_region_name.nation_or_region_name::varchar(50) AS nation_or_region,
+        count(*) AS intersecting_constituencies
+    FROM nation_or_region_name
+        CROSS JOIN constituencies
+    WHERE st_intersects(
         nation_or_region_name.polygon_,
         constituencies.polygon_
     )
-    group by 1
+    GROUP BY 1
 )
-select * from final
+
+SELECT * FROM final

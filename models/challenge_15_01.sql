@@ -4,11 +4,11 @@
     post_hook=[" {{ ch15_create_udf() }}"]
     )
 }}
-
-select
-    $1 as sale_date,
-    $2 as price 
-from values 
+-- noqa: disable=L042
+SELECT
+    $1 AS sale_date,
+    $2 AS price
+FROM VALUES
     ('2013-08-01'::date, 290000.00),
     ('2014-02-01'::date, 320000.00),
     ('2015-04-01'::date, 399999.99),
