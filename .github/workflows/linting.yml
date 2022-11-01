@@ -58,7 +58,8 @@ jobs:
         shell: bash -l {0}
         run: |
           # Set the command in the $() brackets as an output to use in later steps
-          echo "::set-output name=lintees::$(
+          echo "lintees=$(
+          # echo "::set-output name=lintees::$(
           # Issue where grep regular expressions don't work as expected on the
           # Github Actions shell, check dbt/models/ folder
           echo \
@@ -70,12 +71,14 @@ jobs:
           tr -s ' ' '\n' |
           grep -E '^models.*[.]sql$' |
           tr -s '\n' ' ')
-          )"
+          )" >> $GITHUB_OUTPUT
+          echo "to be exported"
+          echo $GITHUB_OUTPUT
       - name: Lint dbt models
         if: steps.get_files_to_lint.outputs.lintees != ''
         shell: bash -l {0}
         run: |
-          sqlfluff lint --format github-annotation --annotation-level failure --nofail ${{ steps.get_files_to_lint.outputs.lintees }} > annotations.json
+          sqlfluff lint --format github-annotation --annotation-level failure --nofail $GITHUB_OUTPUT > annotations.json
           sed -i '/^\[/!d' annotations.json # see https://github.com/sqlfluff/sqlfluff/issues/2244
       - name: Annotate
         uses: yuzutech/annotations-action@v0.3.0
