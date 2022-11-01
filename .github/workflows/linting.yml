@@ -77,7 +77,9 @@ jobs:
         if: steps.get_files_to_lint.outputs.lintees != ''
         shell: bash -l {0}
         run: |
-          sqlfluff lint --format github-annotation --annotation-level failure --nofail $GITHUB_OUTPUT > annotations.json
+          echo "output from prev step"
+          echo ${{ steps.get_files_to_lint.outputs.lintees }}"
+          sqlfluff lint --format github-annotation --annotation-level failure --nofail ${{ steps.get_files_to_lint.outputs.lintees }} > annotations.json
           sed -i '/^\[/!d' annotations.json # see https://github.com/sqlfluff/sqlfluff/issues/2244
           echo "what does this json look like"
           cat ./annotations.json
