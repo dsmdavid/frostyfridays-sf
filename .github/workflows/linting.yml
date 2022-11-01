@@ -57,9 +57,8 @@ jobs:
         id: get_files_to_lint
         shell: bash -l {0}
         run: |
-          # Set the command in the $() brackets as an output to use in later steps
+          # Set the command in the $() brackets as an env variable to use in later steps
           echo "lintees=$(
-          # echo "::set-output name=lintees::$(
           # Issue where grep regular expressions don't work as expected on the
           # Github Actions shell, check dbt/models/ folder
           echo \
