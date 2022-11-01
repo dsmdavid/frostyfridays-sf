@@ -6,3 +6,4 @@ venv/*
 *.ipynb_check*
 dbt_packages/*
 *.pyc
+.DS_Store
