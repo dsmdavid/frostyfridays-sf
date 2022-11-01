@@ -162,6 +162,7 @@ models:
       - name: HERO_NAME
       - name: ROLE_
   - name: challenge_10
+    description: '{{ doc("challenge10") }}'
     columns:
       - name: FILENAME_
       - name: ROW_
