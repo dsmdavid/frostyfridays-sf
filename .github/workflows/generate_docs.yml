@@ -65,7 +65,7 @@ jobs:
           echo "key"
           cat ./rsa_key_david_sf.p8 
           export DBT_PROFILES_DIR=$(pwd)/profiles
-          dbt debug
+          dbt debug --target cicd
           echo "installing deps"
           dbt deps
           echo "generating docs"
