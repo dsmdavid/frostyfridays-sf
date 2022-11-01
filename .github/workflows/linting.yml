@@ -38,11 +38,14 @@ jobs:
           echo "-----BEGIN ENCRYPTED PRIVATE KEY-----" >> ./rsa_key_david_sf.p8
           echo ${{ secrets.SSH_KEY }} >> ./rsa_key_david_sf.p8 
           echo "-----END ENCRYPTED PRIVATE KEY-----" >> ./rsa_key_david_sf.p8
-          
-      - name: Test database connection
-        run: dbt debug
-      - name: Install dbt packages
-        run: dbt deps
+      - name: dbt test & deps
+        run: |
+          echo "DBT_PROFILES_DIR=$(pwd)/profiles" >> $GITHUB_ENV
+          export DBT_PROFILES_DIR=$(pwd)/profiles
+          echo "testing connection"
+          dbt debug
+          echo "installing deps"
+          dbt deps
 # lifted from dbt_artifacts https://github.com/brooklyn-data/dbt_artifacts/blob/main/.github/workflows/ci_test_package.yml
       - name: Get changed files
         id: get_file_changes
