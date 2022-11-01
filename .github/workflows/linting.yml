@@ -79,7 +79,7 @@ jobs:
         run: |
           echo "output from prev step"
           echo ${{ steps.get_files_to_lint.outputs.lintees }}
-          sqlfluff lint --format github-annotation --annotation-level failure --nofail ${{ steps.get_files_to_lint.outputs.lintees }} > annotations.json
+          sqlfluff lint --dialect snowflake --format github-annotation --annotation-level failure --nofail ${{ steps.get_files_to_lint.outputs.lintees }} > annotations.json
           sed -i '/^\[/!d' annotations.json # see https://github.com/sqlfluff/sqlfluff/issues/2244
           echo "what does this json look like"
           ls -la
