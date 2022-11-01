@@ -80,6 +80,8 @@ jobs:
         run: |
           sqlfluff lint --format github-annotation --annotation-level failure --nofail $GITHUB_OUTPUT > annotations.json
           sed -i '/^\[/!d' annotations.json # see https://github.com/sqlfluff/sqlfluff/issues/2244
+          echo "what does this json look like"
+          cat ./annotations.json
       - name: Annotate
         uses: yuzutech/annotations-action@v0.3.0
         with:
