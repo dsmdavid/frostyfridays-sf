@@ -110,8 +110,9 @@ jobs:
           ls -la
           cat ./annotations.json
           sqlfluff lint --dialect snowflake --format yaml --annotation-level failure --nofail ${{ steps.get_files_to_lint.outputs.lintees }} > outputs.txt
-      - name: lint second approach to files
-        run: |
+          echo "----------"
+          echo "----------"
+          echo "----------"
           echo "Attempting second approach"
           sqlfluff lint --dialect snowflake --format yaml --annotation-level failure --nofail ${{ needs.changedfiles.outputs.sqlall }} > second_attempt.txt
           cat second_attempt.txt
