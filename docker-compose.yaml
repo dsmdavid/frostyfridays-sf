@@ -1,0 +1,24 @@
+version: '3.3'
+services:
+    frosty-local:
+        command: /bin/bash
+        build: .
+        volumes:
+            - ./:/app/
+            # - ~/.dbt:/root/.dbt
+            - ~/.ssh:/root/.ssh
+
+        environment:
+            - dvd_sf_passphrase=$dvd_frosty_passphrase
+            - dvd_sf_account=$dvd_frosty_sf_account
+            - dvd_sf_user=$dvd_frosty_user
+            - dvd_sf_role=$dvd_frosty_role
+            - dvd_sf_db=$dvd_frosty_db
+            - dvd_sf_schema=$dvd_frosty_schema
+            - dvd_sf_wh=$dvd_frosty_wh
+        
+
+        ports:
+            - "8085:8085"
+            - "8501:8501"
+
