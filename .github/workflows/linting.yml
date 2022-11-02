@@ -114,7 +114,9 @@ jobs:
           echo "----------"
           echo "----------"
           echo "Attempting second approach"
-          sqlfluff lint --dialect snowflake --format yaml --annotation-level failure --nofail $(echo ${{ needs.changedfiles.outputs.sqlall }}) > second_attempt.txt
+          echo ${{ needs.changedfiles.outputs.sqlall }} > changed_output.txt
+          sed -E ':a;s/(^|\s)[a-z](\s|$)/\1/Ig;ta' changed_output.txt > modified_files.txt
+          sqlfluff lint --dialect snowflake --format yaml --annotation-level failure --nofail $(cat modified_files.txt) > second_attempt.txt
           cat second_attempt.txt
 
       - name: Annotate
