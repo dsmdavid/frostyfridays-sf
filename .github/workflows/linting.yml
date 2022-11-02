@@ -86,12 +86,49 @@ jobs:
           echo "what does this json look like"
           ls -la
           cat ./annotations.json
+          sqlfluff lint --dialect snowflake --format human --annotation-level failure --nofail ${{ steps.get_files_to_lint.outputs.lintees }} > outputs.txt
+
       - name: Annotate
         uses: yuzutech/annotations-action@v0.3.0
         with:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
           title: "SQLFluff Lint"
           input: "./annotations.json"
+      - uses: actions/upload-artifact@v2
+        with:
+          name: outputs
+          path: ./outputs.txt
       - name: say gg
         run: |
           echo "we're done"
+
+
+  add-comment-file-from-file:
+    name: add-comment-file
+    runs-on: ubuntu-latest
+    needs:   sqlfluff-lint-models
+    steps:
+      - uses: actions/download-artifact@v2
+        with:
+          name: outputs
+        # Create a summary for a PR comment
+      - name: check file exists
+        run: |
+             echo "finding file"
+             find . -name outputs.txt
+             echo "processing file"
+             cat ./outputs.txt | grep 'processing\|FAIL\|PASS' > summary.txt
+             echo "adding to summary"
+             echo "" >> summary.txt
+             echo "" >> summary.txt
+             echo "" >> summary.txt
+             echo "" >> summary.txt
+             echo " --------- --------- --------" >> summary.txt
+             echo "Detailed review below:" >> summary.txt
+             cat ./outputs.txt >> summary.txt
+      - name: comment PR
+        uses: machine-learning-apps/pr-comment@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          path: ./summary.txt
