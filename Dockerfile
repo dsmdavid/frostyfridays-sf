@@ -24,4 +24,5 @@ COPY ./ /app/
 RUN chmod 777 -R /app
 WORKDIR /app/
 RUN dbt deps
+RUN pre-commit install
 EXPOSE 8501
