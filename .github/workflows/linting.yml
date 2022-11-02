@@ -114,7 +114,7 @@ jobs:
           echo "----------"
           echo "----------"
           echo "Attempting second approach"
-          sqlfluff lint --dialect snowflake --format yaml --annotation-level failure --nofail ${{ needs.changedfiles.outputs.sqlall }} > second_attempt.txt
+          sqlfluff lint --dialect snowflake --format yaml --annotation-level failure --nofail $(echo ${{ needs.changedfiles.outputs.sqlall }}) > second_attempt.txt
           cat second_attempt.txt
 
       - name: Annotate
