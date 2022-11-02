@@ -38,6 +38,8 @@ jobs:
           echo "allsql=$(git diff --name-status ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | grep -E '^models.*[.]sql$' | xargs | sed -E ':a;s/(^|\s)[a-z](\s|$)/\1/Ig;ta')" >> $GITHUB_OUTPUT
           echo "this is what this would look like"
           git diff --name-status ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | grep -E 'models.*[.]sql$' | xargs | sed -E ':a;s/(^|\s)[a-z](\s|$)/\1/Ig;ta'
+      - name: test output
+        run: echo  ${{ steps.changes.outputs.allsql }}
 
   sqlfluff-lint-models:
     name: Lint dbt models using SQLFluff
