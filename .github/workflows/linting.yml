@@ -35,9 +35,9 @@ jobs:
           echo "this is the pull_request.base.sha: ${{ github.event.pull_request.base.sha }} "
           echo "this is the github.sha: ${{ github.sha }} "
           git diff --name-status ${{ github.event.pull_request.base.sha }} ${{ github.sha }}
-          echo "allsql=$(git diff --name-status ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | grep -E '^models.*[.]sql$' | xargs )" >> $GITHUB_OUTPUT
+          echo "allsql=$(git diff --name-status ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | grep -E '^models.*[.]sql$' | xargs | sed -E ':a;s/(^|\s)[a-z](\s|$)/\1/Ig;ta')" >> $GITHUB_OUTPUT
           echo "this is what this would look like"
-          git diff --name-status ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | grep -E 'models.*[.]sql$' | xargs 
+          git diff --name-status ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | grep -E 'models.*[.]sql$' | xargs | sed -E ':a;s/(^|\s)[a-z](\s|$)/\1/Ig;ta'
 
   sqlfluff-lint-models:
     name: Lint dbt models using SQLFluff
@@ -114,9 +114,7 @@ jobs:
           echo "----------"
           echo "----------"
           echo "Attempting second approach"
-          echo ${{ needs.changedfiles.outputs.sqlall }} > changed_output.txt
-          sed -E ':a;s/(^|\s)[a-z](\s|$)/\1/Ig;ta' changed_output.txt > modified_files.txt
-          sqlfluff lint --dialect snowflake --format yaml --annotation-level failure --nofail $(cat modified_files.txt) > second_attempt.txt
+          sqlfluff lint --dialect snowflake --format yaml --annotation-level failure --nofail ${{ needs.changedfiles.outputs.sqlall }} > second_attempt.txt
           cat second_attempt.txt
 
       - name: Annotate
