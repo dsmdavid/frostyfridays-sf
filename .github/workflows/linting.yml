@@ -39,16 +39,18 @@ jobs:
           echo "this is what this would look like"
           git diff --name-status ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | grep -E 'models.*[.]sql$' | xargs | sed -E ':a;s/(^|\s)[a-z](\s|$)/\1/Ig;ta'
           echo "allsql=$(git diff --name-status ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | grep -E 'models.*[.]sql$' | xargs | sed -E ':a;s/(^|\s)[a-z](\s|$)/\1/Ig;ta')" >> $GITHUB_OUTPUT
-      - name: test output
-        run: echo ${{ steps.changes.outputs.allsql }}
+      # - name: test output
+      #   run: echo ${{ steps.changes.outputs.allsql }}
 
   sqlfluff-lint-models:
     name: Lint dbt models using SQLFluff
     needs: changedfiles
     runs-on: ubuntu-latest
     steps:
-      - name: test_output
-        run: echo ${{needs.changedfiles.outputs.allsql}}
+      - name: files to be linted
+        run: |
+          echo "These files will be checked"
+          echo ${{needs.changedfiles.outputs.allsql}}
 
       - name: checkout branch
         uses: "actions/checkout@v3"
@@ -153,6 +155,7 @@ jobs:
              echo "finding file"
              find . -name outputs.txt
              echo "processing file"
+             cat outputs.txt
              cat ./outputs.txt | grep 'processing\|FAIL\|PASS' > summary.txt
              echo "adding to summary"
              echo "" >> summary.txt
