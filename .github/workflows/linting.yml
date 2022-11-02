@@ -37,7 +37,7 @@ jobs:
           git diff --name-status ${{ github.event.pull_request.base.sha }} ${{ github.sha }}
           echo "allsql=$(git diff --name-status ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | grep -E '^models.*[.]sql$' | xargs )" >> $GITHUB_OUTPUT
           echo "this is what this would look like"
-          echo $(git diff --name-status ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | grep -E '^models.*[.]sql$' | xargs )
+          git diff --name-status ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | grep -E '^models.*[.]sql$' | xargs 
 
   sqlfluff-lint-models:
     name: Lint dbt models using SQLFluff
