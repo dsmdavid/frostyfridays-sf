@@ -10,6 +10,6 @@ WITH prep_1 AS (SELECT
 )
 
 SELECT
-    e_data, -- s
+    e_data, -- select
     n_counter
 FROM prep_1
