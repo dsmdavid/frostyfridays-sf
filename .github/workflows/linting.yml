@@ -47,6 +47,9 @@ jobs:
     needs: changedfiles
     runs-on: ubuntu-latest
     steps:
+      - name: test_output
+        run: echo ${{needs.changedfiles.outputs.allsql}}
+
       - name: checkout branch
         uses: "actions/checkout@v3"
         with:
@@ -108,7 +111,7 @@ jobs:
           echo "output from prev step"
           echo ${{ steps.get_files_to_lint.outputs.lintees }}
           echo "output from prev job"
-          echo ${{ needs.changedfiles.outputs.sqlall }}
+          echo ${{ needs.changedfiles.outputs.allsql }}
           sqlfluff lint --dialect snowflake --format github-annotation --annotation-level failure --nofail ${{ steps.get_files_to_lint.outputs.lintees }} > annotations.json
           sed -i '/^\[/!d' annotations.json # see https://github.com/sqlfluff/sqlfluff/issues/2244
           echo "what does this json look like"
@@ -118,7 +121,7 @@ jobs:
           echo "----------"
           echo "----------"
           echo "Attempting second approach"
-          sqlfluff lint --dialect snowflake --format yaml --annotation-level failure --nofail ${{ needs.changedfiles.outputs.sqlall }} > second_attempt.txt
+          sqlfluff lint --dialect snowflake --format yaml --annotation-level failure --nofail ${{ needs.changedfiles.outputs.allsql }} > second_attempt.txt
           cat second_attempt.txt
 
       - name: Annotate
