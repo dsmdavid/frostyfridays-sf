@@ -104,10 +104,11 @@ jobs:
           mv ./.sqlfluff_cicd ./.sqlfluff
           echo "output from prev step"
           echo ${{ steps.get_files_to_lint.outputs.lintees }}
+          echo "output from prev job"
+          echo ${{ needs.changedfiles.outputs.sqlall }}
           sqlfluff lint --dialect snowflake --format github-annotation --annotation-level failure --nofail ${{ steps.get_files_to_lint.outputs.lintees }} > annotations.json
           sed -i '/^\[/!d' annotations.json # see https://github.com/sqlfluff/sqlfluff/issues/2244
           echo "what does this json look like"
-          ls -la
           cat ./annotations.json
           sqlfluff lint --dialect snowflake --format yaml --annotation-level failure --nofail ${{ steps.get_files_to_lint.outputs.lintees }} > outputs.txt
           echo "----------"
