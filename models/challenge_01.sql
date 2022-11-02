@@ -24,4 +24,4 @@ WITH staged AS (
     ORDER BY 1, 2
 )
 
-SELECT * FROM staged
+SELECT * FROM staged 

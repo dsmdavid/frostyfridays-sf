@@ -8,6 +8,4 @@ UPDATE challenge_02 SET TITLE = 'Ms' WHERE EMPLOYEE_ID = 32;
 UPDATE challenge_02 SET JOB_TITLE = 'Senior Financial Analyst' WHERE EMPLOYEE_ID = 68;
 {% endset %}
 {% do run_query(sql_statement) %}
-
-
 {% endmacro %}

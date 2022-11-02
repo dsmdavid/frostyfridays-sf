@@ -17,8 +17,31 @@ env:
   SSH_KEY: ${{ secrets.SSH_KEY }}
 
 jobs:
+  changedfiles:
+    runs-on: ubuntu-latest
+    # Map a step output to a job output
+    outputs:
+      allsql: ${{ steps.changes.outputs.allsql }}
+    steps:
+        # Make sure we have some code to diff.
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Get changed files
+        id: changes
+        # Set outputs using the command.
+        run: |
+          echo "this is the pull_request.base.sha: ${{ github.event.pull_request.base.sha }} "
+          echo "this is the github.sha: ${{ github.sha }} "
+          git diff --name-status ${{ github.event.pull_request.base.sha }} ${{ github.sha }}
+          echo "allsql=$(git diff --name-status ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | grep -E '^models.*[.]sql$' | xargs )" >> $GITHUB_OUTPUT
+          echo "this is what this would look like"
+          echo "allsql=$(git diff --name-status ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | grep -E '^models.*[.]sql$' | xargs )"
+
   sqlfluff-lint-models:
     name: Lint dbt models using SQLFluff
+    needs: changedfiles
     runs-on: ubuntu-latest
     steps:
       - name: checkout branch
@@ -86,7 +109,12 @@ jobs:
           echo "what does this json look like"
           ls -la
           cat ./annotations.json
-          sqlfluff lint --dialect snowflake --format human --annotation-level failure --nofail ${{ steps.get_files_to_lint.outputs.lintees }} > outputs.txt
+          sqlfluff lint --dialect snowflake --format yaml --annotation-level failure --nofail ${{ steps.get_files_to_lint.outputs.lintees }} > outputs.txt
+      - name: lint second approach to files
+        run: |
+          echo "Attempting second approach"
+          sqlfluff lint --dialect snowflake --format yaml --annotation-level failure --nofail ${{ needs.changedfiles.outputs.sqlall }} > second_attempt.txt
+          cat second_attempt.txt
 
       - name: Annotate
         uses: yuzutech/annotations-action@v0.3.0
