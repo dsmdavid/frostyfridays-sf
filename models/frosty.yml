@@ -254,3 +254,9 @@ models:
     description: '{{ doc("challenge18") }}'
   - name: challenge_19
     description: '{{ doc("challenge19") }}'
+  - name: challenge_20
+    description: '{{ doc("challenge20") }}'
+  - name: challenge_21
+    description: '{{ doc("challenge21") }}'
+  - name: challenge_22
+    description: '{{ doc("challenge22") }}'
