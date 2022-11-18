@@ -20,7 +20,16 @@ use warehouse identifier('&WAREHOUSE_NAME');
 create or replace stage identifier('&STAGE_NAME')
     file_format=(type=csv SKIP_HEADER =1 FIELD_OPTIONALLY_ENCLOSED_BY='\"') ;
 put 'file:///Users/davidsm/Data/bulk_data/*1.csv' @&STAGE_NAME;
-select 
+
+create or replace table challenge_23 (
+    id int,
+    first_name string,
+    last_name string,
+    email string,
+    gender string,
+    ip_address string
+);
+/* select 
     $1 as id,
     $2 as first_name,
     $3 as last_name,
@@ -31,3 +40,6 @@ select
 
 from @&STAGE_NAME
 limit 10;
+*/
+copy into challenge_23 from @&STAGE_NAME ON_ERROR = SKIP_FILE;
+select * from challenge_23;
