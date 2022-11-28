@@ -17,9 +17,13 @@
     additional_info = stage_additional_info) }}
 {% endif %}
 WITH staged AS (
-SELECT  t.$1::int id
-       ,t.$2::varchar(50) city
-       ,t.$3::int district
-FROM @{{stage_name}} (pattern => '.*sales_areas.*') t )
-SELECT  *
+    SELECT
+        t.$1::int AS id,
+        t.$2::varchar(50) AS city,
+        t.$3::int AS district,
+        uuid_string() AS uuid
+    FROM @{{ stage_name }} (PATTERN => '.*sales_areas.*') AS t
+)
+
+SELECT *
 FROM staged
