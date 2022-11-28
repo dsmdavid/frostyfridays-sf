@@ -7,3 +7,4 @@ venv/*
 dbt_packages/*
 *.pyc
 .DS_Store
+*/__pycache__/*

@@ -1,5 +1,6 @@
 # Challenge 24
 ## My solution:
+I reused the code from challenge 12, only to later realise that we were supposed to use Snowpark. So ended up tweaking the original solution:
 - One approach without Snowpark (just regular snowlake connector)
 - One with Snowpark -- could reuse most of it, just some minor tweaks needed.
 
