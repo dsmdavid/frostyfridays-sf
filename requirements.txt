@@ -34,10 +34,9 @@ idna==3.4
 importlib-metadata==5.0.0
 iniconfig==1.1.1
 isodate==0.6.1
-jaraco.classes==3.2.3
-jeepney==0.8.0
-Jinja2==3.1.2
-jinja2-simple-tags==0.4.0
+jedi==0.18.1
+Jinja2
+joblib==1.1.0
 jsonschema==3.2.0
 keyring==23.9.3
 leather==0.3.4
