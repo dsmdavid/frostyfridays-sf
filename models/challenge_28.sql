@@ -31,6 +31,7 @@ final AS (
         LEFT JOIN daily_temps AS d
             ON --c.iso3166_1 = d."Country"
                 c.country_region = d."Country Name"
+                AND c.date = d."Date"
     QUALIFY row_number() OVER (PARTITION BY c.country_region ORDER BY d."Stations Name" DESC) = 1
 )
 
