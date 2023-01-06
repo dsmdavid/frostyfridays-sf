@@ -1,5 +1,16 @@
 version: 2
 sources:
+  - name: marketplace_covid19_starschema
+    database: SF_EXCHANGE__COVID19
+    schema: PUBLIC
+    tables:
+      - name: ECDC_GLOBAL
+  - name: marketplace_daily_wheather
+    database: SF_EXCHANGE__KNOEMA__DAILY_WEATHER_DATA
+    schema: KNDWD_DATA_PACK
+    tables:
+      - name: NOAACD2019R
+        description: Daily Weather Data, All stations, Across World
   - name: marketplace_economy_atlas
     database: ECONOMY_DATA_ATLAS
     schema: ECONOMY
