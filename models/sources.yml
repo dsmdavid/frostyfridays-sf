@@ -1,5 +1,10 @@
 version: 2
 sources:
+  - name: snowflake
+    database: snowflake
+    schema: account_usage
+    tables:
+      - name: session_policies
   - name: marketplace_covid19_starschema
     database: SF_EXCHANGE__COVID19
     schema: PUBLIC
