@@ -12,7 +12,7 @@ SF_KEY_PATH = os.getenv('dvd_key_path',os.getenv('dvd_frosty_local_path_to_key',
 SF_ACCOUNT = os.getenv('dvd_sf_account')
 SF_DATABASE = os.getenv('dvd_sf_db')
 SF_SCHEMA = os.getenv('dvd_sf_schema')
-SF_WAREHOUSE = os.getenv('dvd_frosty_wh')
+SF_WAREHOUSE = os.getenv('dvd_frosty_wh','WAREHOUSE_DVD_TEST')
 SF_ROLE = os.getenv('dvd_sf_role')
 
 def get_pkb(path):
