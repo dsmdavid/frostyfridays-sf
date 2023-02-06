@@ -10,7 +10,7 @@ grant role {{target.role}} to role role_dvd_frosty_fridays_01;
 grant role {{target.role}} to role role_dvd_frosty_fridays_02;
 use role {{target.role}};
 
-create or replace row access policy {{target.database}}.{{target.schema}}.rls_challenge_22 
+create row access policy if not exists {{target.database}}.{{target.schema}}.rls_challenge_22 
  AS (id number) returns boolean ->
     CASE
         WHEN lower(current_role()) IN ('role_dvd_frosty_fridays_01', 'sysadmin', '{{target.role}}')
