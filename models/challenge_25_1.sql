@@ -3,11 +3,11 @@
     materialized = 'table',
     schema='dvd_frosty_friday_lz'
  )
-}}
+}}-- noqa: disable=L016
 {% set stage_name = 'dvd_frosty_fridays_25' %}
-{% set stage_additional_info = "url='s3://frostyfridaychallenges/challenge_25/' file_format=(type=JSON STRIP_OUTER_ARRAY = TRUE)" %}
+{% set stage_additional_info = "url='s3://frostyfridaychallenges/challenge_25/' file_format=(type=JSON STRIP_OUTER_ARRAY = TRUE)" %}-- noqa: L016
 
-{%- if execute %}
+{%- if execute and var('ch25', var('run_all', false)) %}
 {{ create_stage(
         database = target.database,
         schema = target.schema,

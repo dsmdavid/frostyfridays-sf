@@ -5,4 +5,5 @@ macros/
 models/challenge_20*
 *challenge_04_03.sql
 *challenge_10.sql
+*challenge_07.sql
 models/challenge_26_nodbt.sql

@@ -1,5 +1,5 @@
 {% macro init_challenge_20() %}
-{% if execute %}
+{% if execute and var('ch20', var('run_all', false)) %}
   {% set stored_procedure_query %}
  
 CREATE OR REPLACE PROCEDURE {{target.database}}.{{target.schema}}.ch20_clone_with_copy_grants(DATABASE_NAME varchar,

@@ -2,7 +2,7 @@
 {% set combs = {'8_min_UI':{'ui':8,'prog':240},
                '10_min_programmatic':{'ui':240,'prog':8}
                }%}
-{% if execute %}
+{% if execute and var('ch32', var('run_all', false)) %}
   {% set init_query %}
     {% for item_key, item_value in combs.items() %}
       create session policy if not exists {{target.schema}}.session_policy_ff_{{item_key}}
@@ -31,7 +31,7 @@
                '10_min_programmatic':{'ui':240,'prog':8}
                }%}
 
-{% if execute %}
+{% if execute and var('ch32', var('run_all', false)) %}
   {% set init_query %}
   {% for item_key, item_value in combs.items() %}
   drop user if exists dvd_ff_{{ item_key }} ;

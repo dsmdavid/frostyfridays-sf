@@ -4,9 +4,9 @@
  )
 }}
 {% set stage_name = 'dvd_frosty_fridays_04' %}
-{% set stage_additional_info = "url='s3://frostyfridaychallenges/challenge_4/' file_format=(type=json strip_outer_array=True)" %}
+{% set stage_additional_info = "url='s3://frostyfridaychallenges/challenge_4/' file_format=(type=json strip_outer_array=True)" %} -- noqa: L016
 
-{%- if execute %}
+{% if execute and var('ch04', var('run_all', false)) %}
 {{ create_stage(
         database = target.database,
         schema = target.schema,

@@ -1,5 +1,5 @@
 {% macro ch15_create_udf() %}
-{% if execute %}
+{% if execute and var('ch15', var('run_all', false)) %}
     {% set sql_statement %}
 create or replace function udf_set_bins(
     VALUE_ DOUBLE,

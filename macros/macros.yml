@@ -1,0 +1,4 @@
+version: 2
+macros:
+  - name: safe_drop_36
+    description: '{{ doc("challenge36") }}'

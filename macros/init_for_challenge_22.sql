@@ -1,5 +1,5 @@
 {% macro init_challenge_22() %}
-{% if execute %}
+{% if execute and var('ch22', var('run_all', false)) %}
   {% set init_query %}
 use role securityadmin;
 create role if not exists role_dvd_frosty_fridays_01;

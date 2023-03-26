@@ -4,7 +4,7 @@
 )
 }}
 
-  {% if execute %}
+{%- if execute and var('ch12', var('run_all', false)) %}
   {% set schema_name = 'world_bank_metadata' %}
   {% set second_schema_name = 'world_bank_economic_indicators' %}
   {% set third_schema_name = 'world_bank_social_indiactors' %}
@@ -59,4 +59,4 @@
 
 {% endif %}
 
-select 1 as dummy
+SELECT 1 AS dummy

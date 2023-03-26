@@ -20,7 +20,7 @@ WITH temp AS (
             temp.monarch_index + 1 AS inter_house_id,
             temp.era,
             temp.house_name, -- block below
-    {%- if execute -%}
+    {% if execute and var('ch04', var('run_all', false)) %}
     {%- for key_name in unique_keys['data'] -%}
     {%- if key_name[0] not in ('Consort\/Queen Consort','Nickname') -%}
     temp.monarchs:"{{ key_name[0] }}"::

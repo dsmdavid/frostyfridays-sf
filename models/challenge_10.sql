@@ -4,9 +4,9 @@
  )
 }}
 {% set stage_name = 'dvd_frosty_fridays_10' %}
-{% set stage_additional_info = "url='s3://frostyfridaychallenges/challenge_10/' file_format=(type=csv SKIP_HEADER =1)" %}
+{% set stage_additional_info = "url='s3://frostyfridaychallenges/challenge_10/' file_format=(type=csv SKIP_HEADER =1)" %} -- noqa: L016
 
-{%- if execute %}
+{%- if execute and var('ch10', var('run_all', false)) %}
   {{ create_stage(
         database = target.database,
         schema = target.schema,
@@ -14,7 +14,7 @@
         additional_info = stage_additional_info) }}
 {% endif %}
 
-{% if execute %}
+{%- if execute and var('ch10', var('run_all', false)) %}
   {{ init_challenge_10() }}
 
   {% set query %}
