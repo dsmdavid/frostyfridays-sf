@@ -131,3 +131,13 @@ sources:
           - name: LAST_NAME
           - name: FIRST_NAME
           - name: HERO_NAME
+
+  - name: snowflake_sample_data
+    database: snowflake_sample_data
+    schema: tpch_sf100
+    tables:
+      - name: lineitem
+      - name: orders
+      - name: customer
+      - name: nation
+      - name: region
