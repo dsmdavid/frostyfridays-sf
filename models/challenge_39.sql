@@ -2,18 +2,19 @@
   config(
     materialized = 'table',
     post_hook = ["
-    {% if var('ch39', false) %}
+    {% if var('ch39',  var('run_all', false)) %}
         CREATE OR REPLACE MASKING POLICY ch39_email_mask AS (val string) RETURNS string ->
         CASE
             WHEN CURRENT_ROLE() = '{{ target.role }}' THEN val
             ELSE '*********@' || split(val,'@')[1]
         END
   {% endif %}",
-  "{% if var('ch39', false) %}
+  "{% if var('ch39',  var('run_all', false)) %}
     ALTER TABLE {{ this }} MODIFY COLUMN email SET MASKING POLICY ch39_email_mask FORCE
    {% endif %}"]
     )
 }}
+-- masking policy will only be created if a var is passed at runtime
 SELECT
     1 AS id,
     'Jeff Jeffy' AS user_name,
