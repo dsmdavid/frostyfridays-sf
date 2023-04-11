@@ -1,3 +1,4 @@
+-- noqa: disable=RF04,AL03
 {{
   config(
     materialized = 'table',
