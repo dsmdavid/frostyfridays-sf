@@ -69,6 +69,7 @@ jobs:
           echo "-----BEGIN ENCRYPTED PRIVATE KEY-----" >> ./rsa_key_david_sf.p8
           echo ${{ secrets.SSH_KEY }} >> ./rsa_key_david_sf.p8 
           chmod 644 ./rsa_key_david_sf.p8 
+          chmod 644 /root/.ssh/rsa_key_david_sf.p8
           echo "-----END ENCRYPTED PRIVATE KEY-----" >> ./rsa_key_david_sf.p8
       - name: dbt test & deps
         run: |
@@ -136,13 +137,6 @@ jobs:
         #   sqlfluff lint --dialect snowflake --format yaml --annotation-level failure --nofail ${{ needs.changedfiles.outputs.allsql }} > second_attempt.txt
         #   cat second_attempt.txt
 
-      - name: Annotate
-        if: needs.changedfiles.outputs.allsql != ''
-        uses: yuzutech/annotations-action@v0.3.0
-        with:
-          repo-token: "${{ secrets.GITHUB_TOKEN }}"
-          title: "SQLFluff Lint Comment"
-          input: "./annotations.json"
       - uses: actions/upload-artifact@v2
         if: needs.changedfiles.outputs.allsql != ''
         with:
