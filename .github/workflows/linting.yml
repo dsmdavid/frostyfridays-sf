@@ -68,7 +68,6 @@ jobs:
           pwd 
           echo "-----BEGIN ENCRYPTED PRIVATE KEY-----" >> ./rsa_key_david_sf.p8
           echo ${{ secrets.SSH_KEY }} >> ./rsa_key_david_sf.p8 
-          chmod 644 ./rsa_key_david_sf.p8 
           echo "-----END ENCRYPTED PRIVATE KEY-----" >> ./rsa_key_david_sf.p8
       - name: dbt test & deps
         run: |
@@ -113,13 +112,6 @@ jobs:
           mv ./.sqlfluff_cicd ./.sqlfluff
           echo "output from prev job"
           echo ${{ needs.changedfiles.outputs.allsql }}
-          echo "cwd"
-          pwd
-          echo "test 04_02"
-          sqlfluff lint models/challenge_04_02_aux.sql
-          echo "test ch39"
-          sqlfluff lint models/challenge_39.sql
-          echo "end test ch39"
           sqlfluff lint --dialect snowflake --format github-annotation --annotation-level failure --nofail ${{ needs.changedfiles.outputs.allsql }} > annotations.json
           sed -i '/^\[/!d' annotations.json # see https://github.com/sqlfluff/sqlfluff/issues/2244
           sqlfluff lint --dialect snowflake --format yaml --annotation-level failure --nofail ${{ needs.changedfiles.outputs.allsql }} > outputs.txt
