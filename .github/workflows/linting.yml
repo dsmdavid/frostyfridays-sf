@@ -115,6 +115,8 @@ jobs:
           echo ${{ needs.changedfiles.outputs.allsql }}
           echo "cwd"
           pwd
+          echo "test 04_02"
+          sqlfluff lint models/challenge_04_02_aux.sql
           echo "test ch39"
           sqlfluff lint models/challenge_39.sql
           echo "end test ch39"
