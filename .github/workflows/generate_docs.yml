@@ -64,6 +64,7 @@ jobs:
           source ./aws_export
           echo "key"
           cat ./rsa_key_david_sf.p8 
+          chmod 644 ./rsa_key_david_sf.p8 
           export DBT_PROFILES_DIR=$(pwd)/profiles
           dbt debug --target cicd
           echo "installing deps"
