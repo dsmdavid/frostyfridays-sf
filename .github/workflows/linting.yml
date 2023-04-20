@@ -113,6 +113,11 @@ jobs:
           mv ./.sqlfluff_cicd ./.sqlfluff
           echo "output from prev job"
           echo ${{ needs.changedfiles.outputs.allsql }}
+          echo "cwd"
+          pwd
+          echo "test ch39"
+          sqlfluff lint models/challenge_39.sql
+          echo "end test ch39"
           sqlfluff lint --dialect snowflake --format github-annotation --annotation-level failure --nofail ${{ needs.changedfiles.outputs.allsql }} > annotations.json
           sed -i '/^\[/!d' annotations.json # see https://github.com/sqlfluff/sqlfluff/issues/2244
           sqlfluff lint --dialect snowflake --format yaml --annotation-level failure --nofail ${{ needs.changedfiles.outputs.allsql }} > outputs.txt
