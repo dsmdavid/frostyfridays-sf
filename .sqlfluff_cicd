@@ -230,6 +230,9 @@ unwrap_wrapped_queries = True
 [sqlfluff:templater:jinja]
 apply_dbt_builtins = True
 
+[sqlfluff:templater:dbt]
+target = cicd
+
 # Some rules can be configured directly from the config common to other rules
 [sqlfluff:rules]
 allow_scalar = True
