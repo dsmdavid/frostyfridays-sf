@@ -69,7 +69,6 @@ jobs:
           echo "-----BEGIN ENCRYPTED PRIVATE KEY-----" >> ./rsa_key_david_sf.p8
           echo ${{ secrets.SSH_KEY }} >> ./rsa_key_david_sf.p8 
           chmod 644 ./rsa_key_david_sf.p8 
-          chmod 644 /root/.ssh/rsa_key_david_sf.p8
           echo "-----END ENCRYPTED PRIVATE KEY-----" >> ./rsa_key_david_sf.p8
       - name: dbt test & deps
         run: |
