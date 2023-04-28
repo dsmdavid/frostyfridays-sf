@@ -14,7 +14,6 @@ def main(session: snowpark.Session):
                                    record_path = ['superheroes'],
                                    meta=['company_name', 'company_website','location'])
                                   
-                                    
     # expand the location
     end = pandas.concat([
         tmp_df,
