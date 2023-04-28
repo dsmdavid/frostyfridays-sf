@@ -1,21 +1,20 @@
-# The Snowpark package is required for Python Worksheets. 
-# You can add more packages by selecting them using the Packages control and then importing them.
-
+# Python worksheet
 import snowflake.snowpark as snowpark
 import json
 import pandas
-from snowflake.snowpark.functions import col
+from snowflake.snowpark.functions import col, parse_json
 
 def main(session: snowpark.Session): 
     tableName = 'challenge_43_01'
     dataframe = session.table(tableName)
-    df = dataframe.to_pandas()
-    # parse json
-    df['json'] = df['JSON'].apply(lambda x: json.loads(x))
-    # extract the superheroes
-    tmp_df = pandas.json_normalize(df.iloc[0]['json'],
+    # get the json
+    tmp = json.loads(dataframe.to_pandas()['JSON'].iloc[0])
+    # convert to dataframe
+    tmp_df = pandas.json_normalize(tmp,
                                    record_path = ['superheroes'],
                                    meta=['company_name', 'company_website','location'])
+                                  
+                                    
     # expand the location
     end = pandas.concat([
         tmp_df,
