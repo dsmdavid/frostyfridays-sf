@@ -4,11 +4,15 @@
     materialized = 'view'
  )
 }}
+{% if execute and var('ch04', false) %}
 {% call statement('unique_keys', fetch_result=True) %}
   select key_name
   from {{ ref('challenge_04_02_aux') }}
 {% endcall %}
 {% set unique_keys = load_result('unique_keys') %}
+{% else %}
+{% set unique_keys =[''] %}
+{% endif %}
 
 WITH temp AS (
         SELECT * FROM {{ ref('challenge_04_01') }}

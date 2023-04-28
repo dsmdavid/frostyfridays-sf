@@ -1,0 +1,118 @@
+CREATE TABLE IF NOT EXISTS ch_42_tracker (
+    minute TIMESTAMP,
+    joan BOOLEAN,
+    maggy BOOLEAN,
+    jason BOOLEAN
+    
+);
+
+CREATE OR REPLACE PROCEDURE ch_42_update(
+        TABLE_NAME VARCHAR,
+        COLUMN_NAME VARCHAR,
+        SLEEP_MINUTES INTEGER,
+        MAX_MINUTES INTEGER)
+    RETURNS VARCHAR
+    LANGUAGE SQL
+    EXECUTE AS caller
+AS
+$$
+    DECLARE
+        merge_statement VARCHAR DEFAULT (
+        'MERGE INTO ' || :TABLE_NAME || ' AS t_dest
+            USING (
+                SELECT DATE_TRUNC(\'MINUTE\', CURRENT_TIMESTAMP()) as minute,
+                        CASE WHEN UPPER(\''|| :COLUMN_NAME ||'\')= \'JOAN\' THEN TRUE ELSE NULL END AS JOAN,
+                        CASE WHEN UPPER(\''|| :COLUMN_NAME ||'\')= \'MAGGY\' THEN TRUE ELSE NULL END AS MAGGY,
+                        CASE WHEN UPPER(\''|| :COLUMN_NAME ||'\')= \'JASON\' THEN TRUE ELSE NULL END AS JASON
+                    ) as t2 on t_dest.minute = t2.minute 
+        WHEN MATCHED THEN UPDATE SET '|| :COLUMN_NAME ||' = T2.'|| :COLUMN_NAME || '
+        WHEN NOT MATCHED THEN INSERT (MINUTE, JOAN, MAGGY, JASON) VALUES (T2.MINUTE, T2.JOAN, T2.MAGGY, T2.JASON)
+        '
+                );
+        iteration INTEGER DEFAULT 0;
+        sleep_time INTEGER DEFAULT (:SLEEP_MINUTES);
+        max_iterations INTEGER DEFAULT (:MAX_MINUTES);
+        holder resultset; 
+
+    BEGIN
+        -- wait for the "sleep time"
+        CALL SYSTEM$WAIT(:sleep_time, 'MINUTES');
+        -- then update the tracker table with the current wakefulness status
+        WHILE (iteration < max_iterations) DO
+            holder := (EXECUTE IMMEDIATE merge_statement);
+            CALL SYSTEM$WAIT(60);
+            iteration := iteration + 1;
+        END WHILE;
+        RETURN iteration::varchar;
+    END
+    ;
+$$
+;
+
+create or replace task test_db.dvd_frosty_fridays.ch_42_joan
+    WAREHOUSE = 'WAREHOUSE_DVD_TEST'
+    SCHEDULE = '4 MINUTE'
+    ALLOW_OVERLAPPING_EXECUTION= FALSE
+AS
+$$
+    CALL test_db.dvd_frosty_fridays.ch_42_update('ch_42_tracker','joan',2,2);
+$$
+create or replace task test_db.dvd_frosty_fridays.ch_42_maggy
+    WAREHOUSE = 'WAREHOUSE_DVD_TEST'
+    SCHEDULE = '4 MINUTE'
+    ALLOW_OVERLAPPING_EXECUTION= FALSE
+AS
+$$
+    CALL test_db.dvd_frosty_fridays.ch_42_update('ch_42_tracker','maggy',3,1);
+$$
+create or replace task test_db.dvd_frosty_fridays.ch_42_jason
+    WAREHOUSE = 'WAREHOUSE_DVD_TEST'
+    SCHEDULE = '8 MINUTE'
+    ALLOW_OVERLAPPING_EXECUTION= FALSE
+AS
+    CALL test_db.dvd_frosty_fridays.ch_42_update('ch_42_tracker','jason',7,1);
+
+-- switch on, monitor and turn everything off
+CREATE OR REPLACE PROCEDURE ch_42_dad_procedure()
+    RETURNS VARCHAR
+    LANGUAGE SQL
+    EXECUTE AS caller
+AS
+$$
+    DECLARE
+        -- current_minute DEFAULT (SELECT DATE_TRUNC('MINUTE', CURRENT_TIMESTAMP())::VARCHAR);
+        check_statement VARCHAR DEFAULT ('SELECT COUNT(*)>0 AS STOP FROM ch_42_tracker
+where JOAN and MAGGY and JASON');
+        holder resultset;
+        output BOOLEAN DEFAULT (FALSE);
+        start_time TIMESTAMP DEFAULT (SELECT CURRENT_TIMESTAMP());
+        end_time TIMESTAMP;
+
+    BEGIN
+        -- resume tasks
+        holder := (EXECUTE IMMEDIATE 'ALTER TASK CH_42_JOAN RESUME;');
+        holder := (EXECUTE IMMEDIATE 'ALTER TASK CH_42_MAGGY RESUME;');
+        holder := (EXECUTE IMMEDIATE 'ALTER TASK CH_42_JASON RESUME;');
+        -- start sensor until condition met
+        WHILE (output < 1) DO
+            holder := (EXECUTE IMMEDIATE check_statement);
+            let c1 cursor for holder;
+            open c1;
+            FETCH c1 INTO output;
+            CALL SYSTEM$WAIT(1);
+        END WHILE;
+        -- suspend tasks
+        holder := (EXECUTE IMMEDIATE 'ALTER TASK CH_42_JOAN SUSPEND;');
+        holder := (EXECUTE IMMEDIATE 'ALTER TASK CH_42_MAGGY SUSPEND;');
+        holder := (EXECUTE IMMEDIATE 'ALTER TASK CH_42_JASON SUSPEND;');
+        end_time := current_timestamp();
+    RETURN start_time::varchar || ' to ' || end_time::varchar;
+        
+    END
+    ;
+$$;
+call ch_42_dad_procedure();
+
+ALTER TASK CH_42_JOAN SUSPEND;
+ALTER TASK CH_42_MAGGY SUSPEND;
+ALTER TASK CH_42_JASON SUSPEND;
