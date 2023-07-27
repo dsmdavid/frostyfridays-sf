@@ -2,11 +2,11 @@
   config(
     materialized = 'view'
  )
-}}
+}} --noqa: disable=L016
 {% set stage_name = 'dvd_frosty_fridays_16' %}
-{% set stage_additional_info = "url='s3://frostyfridaychallenges/challenge_16/' file_format=dvd_frosty_fridays_json" %}
+{% set stage_additional_info = "url='s3://frostyfridaychallenges/challenge_16/' file_format=dvd_frosty_fridays_json" %} -- noqa: L016
 
-{%- if execute %}
+{%- if execute and var('ch16', var('run_all', false)) %}
 {% set sql %}
   create or replace file format dvd_frosty_fridays_json
     type = json

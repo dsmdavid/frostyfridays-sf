@@ -1,5 +1,5 @@
 {% macro init_challenge_10() %}
-{% if execute %}
+{% if execute and var('ch10', var('run_all', false)) %}
 
   {{ log('Starting challenge_10 pre-work', info=True)}}
   {% set table_name = 'challenge_10_insert'%}

@@ -1,0 +1,29 @@
+# Python worksheet
+import snowflake.snowpark as snowpark
+import json
+import pandas
+from snowflake.snowpark.functions import col, parse_json
+
+def main(session: snowpark.Session): 
+    tableName = 'challenge_43_01'
+    dataframe = session.table(tableName)
+    # get the json
+    tmp = json.loads(dataframe.to_pandas()['JSON'].iloc[0])
+    # convert to dataframe
+    tmp_df = pandas.json_normalize(tmp,
+                                   record_path = ['superheroes'],
+                                   meta=['company_name', 'company_website','location'])
+                                  
+    # expand the location
+    end = pandas.concat([
+        tmp_df,
+        tmp_df['location'].apply(pandas.Series)
+        ], axis=1)\
+    .drop('location', axis=1)
+    
+    # Return with the requested order
+    return session.create_dataframe(end[['id','company_name','company_website',
+                                         'address','city','country','state',
+                                         'zip','name','powers','real_name',
+                                         'role','years_of_experience']]
+                                   )

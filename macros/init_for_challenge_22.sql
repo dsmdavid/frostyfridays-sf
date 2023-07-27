@@ -1,5 +1,5 @@
 {% macro init_challenge_22() %}
-{% if execute %}
+{% if execute and var('ch22', var('run_all', false)) %}
   {% set init_query %}
 use role securityadmin;
 create role if not exists role_dvd_frosty_fridays_01;
@@ -10,7 +10,7 @@ grant role {{target.role}} to role role_dvd_frosty_fridays_01;
 grant role {{target.role}} to role role_dvd_frosty_fridays_02;
 use role {{target.role}};
 
-create or replace row access policy {{target.database}}.{{target.schema}}.rls_challenge_22 
+create row access policy if not exists {{target.database}}.{{target.schema}}.rls_challenge_22 
  AS (id number) returns boolean ->
     CASE
         WHEN lower(current_role()) IN ('role_dvd_frosty_fridays_01', 'sysadmin', '{{target.role}}')

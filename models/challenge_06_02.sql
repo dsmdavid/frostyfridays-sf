@@ -3,11 +3,11 @@
   config(
     materialized = 'table'
  )
-}}
+}}--noqa: disable=L016
 {% set stage_name = 'dvd_frosty_fridays_06' %}
-{% set stage_additional_info = "url='s3://frostyfridaychallenges/challenge_6/' file_format=(type=csv SKIP_HEADER =1)" %}
+{% set stage_additional_info = "url='s3://frostyfridaychallenges/challenge_6/' file_format=(type=csv SKIP_HEADER =1)" %} -- noqa: L016
 
-{%- if execute %}
+{%- if execute and var('ch06', var('run_all', false)) %}
 {{ create_stage(
         database = target.database,
         schema = target.schema,
@@ -28,5 +28,8 @@ SELECT
     {% for item in results %}
     ${{ loop.index }}::varchar(50) AS {{ item }}{% if not loop.last %}, {% endif %}
     {% endfor %}
+    {% if not results %}
+    1 AS dummy
+    {% endif %}
 FROM @{{ stage_name }}
 WHERE metadata$filename ILIKE '%nations%'

@@ -1,5 +1,5 @@
 {% macro init_challenge_09() %}
-    {% if execute %}
+    {% if execute and var('ch09', var('run_all', false)) %}
         {{ log('Starting challenge_09 pre-work', info=True)}}
   {% endif %}
   {% set table_name = 'data_to_be_masked' %}
@@ -79,7 +79,7 @@ use role {{ target.role }};
 
 {% endset %}
 
-  {% if execute %}
+  {% if execute and var('ch09', var('run_all', false)) %}
     {{ log('Query for challenge_09 created', info=True)}}
     {{ log(initial_query, info = True)}}
     {% do run_query(initial_query) %}

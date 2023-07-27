@@ -36,7 +36,9 @@ final AS (
 
 SELECT
     *,
-    {% if execute %}
+    {%- if execute and var('ch07', var('run_all', false)) %}
     '{{ now.columns[0].values()[0] }}' AS run_at
+    {% else %}
+    1 AS dummy
     {% endif %}
 FROM final

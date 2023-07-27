@@ -4,9 +4,9 @@
  )
 }}
 {% set stage_name = 'dvd_frosty_fridays_03' %}
-{% set stage_additional_info = "url='s3://frostyfridaychallenges/challenge_3/' file_format=(type=csv)" %}
+{% set stage_additional_info = "url='s3://frostyfridaychallenges/challenge_3/' file_format=(type=csv)" %} -- noqa: L016
 
-{%- if execute %}
+{% if execute and var('ch03', var('run_all', false)) %}
 {{ create_stage(
         database = target.database,
         schema = target.schema,
@@ -18,7 +18,7 @@
 {% set query_id = query_id_res.columns[0].values()[0] %}
 
 {% else %}
-  {% set query_id = 'dummy' %}
+{% set query_id = 'dummy' %}
 {% endif %}
 
 WITH lq AS (

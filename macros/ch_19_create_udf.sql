@@ -1,5 +1,5 @@
 {% macro ch19_create_udf() %}
-{% if execute %}
+{% if execute and var('ch19', var('run_all', false)) %}
     {% set sql_statement %}
 create or replace function test_db.dvd_frosty_fridays.WORKING_DAYS(START_DATE STRING, END_DATE STRING, INCLUDE_UPPER BOOLEAN)
 returns numeric(11, 2)

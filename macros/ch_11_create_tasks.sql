@@ -1,5 +1,5 @@
 {% macro ch11_create_tasks() %}
-{% if execute %}
+{% if execute and var('ch11', var('run_all', false)) %}
     {% set sql_statement %}
     CREATE OR REPLACE TASK dvd_frosty_whole_milk_updates
         WAREHOUSE = WAREHOUSE_DVD_TEST

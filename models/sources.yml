@@ -1,5 +1,10 @@
 version: 2
 sources:
+  - name: snowflake
+    database: snowflake
+    schema: account_usage
+    tables:
+      - name: session_policies
   - name: marketplace_covid19_starschema
     database: SF_EXCHANGE__COVID19
     schema: PUBLIC
@@ -126,3 +131,13 @@ sources:
           - name: LAST_NAME
           - name: FIRST_NAME
           - name: HERO_NAME
+
+  - name: snowflake_sample_data
+    database: snowflake_sample_data
+    schema: tpch_sf100
+    tables:
+      - name: lineitem
+      - name: orders
+      - name: customer
+      - name: nation
+      - name: region

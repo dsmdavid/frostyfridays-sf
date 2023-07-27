@@ -4,11 +4,15 @@
     materialized = 'view'
  )
 }}
+{% if execute and var('ch04', false) %}
 {% call statement('unique_keys', fetch_result=True) %}
   select key_name
   from {{ ref('challenge_04_02_aux') }}
 {% endcall %}
 {% set unique_keys = load_result('unique_keys') %}
+{% else %}
+{% set unique_keys =[''] %}
+{% endif %}
 
 WITH temp AS (
         SELECT * FROM {{ ref('challenge_04_01') }}
@@ -20,7 +24,7 @@ WITH temp AS (
             temp.monarch_index + 1 AS inter_house_id,
             temp.era,
             temp.house_name, -- block below
-    {%- if execute -%}
+    {% if execute and var('ch04', var('run_all', false)) %}
     {%- for key_name in unique_keys['data'] -%}
     {%- if key_name[0] not in ('Consort\/Queen Consort','Nickname') -%}
     temp.monarchs:"{{ key_name[0] }}"::

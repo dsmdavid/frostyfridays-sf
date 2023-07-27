@@ -7,7 +7,7 @@
  )
 }}
 
-{% if execute %}
+{%- if execute and var('ch20', var('run_all', false)) %}
   {{ init_challenge_20() }}
 
   {% set query %}

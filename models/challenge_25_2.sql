@@ -13,13 +13,13 @@ FROM {{ ref('challenge_25_1') }},
 LATERAL flatten(result_:weather, OUTER => true) AS r
 {% endset %}
 
-{% if execute %}
+{%- if execute and var('ch25', var('run_all', false)) %}
 {% set results = run_query(sql) %}
 {% do results.print_table() %}
 {% set results_list = results.columns[0].values()[0] %}
 {% else %}
-  {% set results = '' %}
-  {% set results_list = '' %}
+{% set results = '' %}
+{% set results_list = '' %}
 {% endif %}
 
 WITH base AS (
@@ -29,10 +29,12 @@ WITH base AS (
 tabular AS (
     SELECT
         -- noqa: disable=L008
-        r.value AS array_, 
+        r.value AS array_,
+        {%- if results_list %}
 {%- for item in results_list.split('|') %}
         r.value['{{ item }}']{{ '::timestamp' if item == 'timestamp' }} AS {{ item }},
 {%- endfor %}
+{% endif -%}
         current_date() AS processed_at
     FROM base,
         LATERAL flatten(result_:weather, OUTER => true) AS r
