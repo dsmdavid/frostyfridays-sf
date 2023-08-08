@@ -278,7 +278,19 @@ models:
     description: '{{ doc("challenge39") }}'
   - name: challenge_40
     description: '{{ doc("challenge40") }}'
+  - name: challenge_49_01
+    config:
+      enabled: false
+  - name: challenge_49_02
+    config:
+      enabled: false
+  - name: challenge_49_03
+    config:
+      enabled: false
   - name: challenge_52
     description: '{{ doc("challenge52") }}'
   - name: challenge_53
     description: '{{ doc("challenge53") }}'
+    config:
+      docs:
+        node_color: "gold"
