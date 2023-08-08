@@ -10,7 +10,7 @@ def python_approach(session):
     dataframe = session.table(tableName).filter(col("LAST_NAME") == 'Deery')
     return dataframe
     
-def main(session: snowpark.Session): 
+def model(dbt, session: snowpark.Session): 
     # Your code goes here, inside the "main" handler.
     # dataframe = python_approach(session)
     dataframe = sql_approach(session)

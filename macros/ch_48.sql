@@ -69,7 +69,7 @@ drop alert if exists {{ alert_name }};
   {% do run_query(drop_notification_statement) %}
   {% do run_query(drop_alert_statement) %}
 {% else %}
-  {{ log('Nothing to do for ff48', info=True)}}
+  {{ log('Nothing to do for ff48')}}
 
 {% endif %}
 

@@ -250,6 +250,9 @@ models:
       - name: MONARCH_INDEX
       - name: MONARCHS
       - name: KEYS
+  - name: challenge_18
+    config:
+      enabled: false # the source for this is no longer available
   - name: challenge_18_02
     description: '{{ doc("challenge18") }}'
   - name: challenge_19
@@ -264,6 +267,9 @@ models:
     description: '{{ doc("challenge25") }}'
   - name: challenge_27
     description: '{{ doc("challenge27") }}'
+  - name: challenge_28
+    config:
+      enabled: false # the source for this is no longer available  
   - name: challenge_37
     description: '{{ doc("challenge37") }}'
   - name: challenge_38_04_deleted_sales
@@ -272,3 +278,7 @@ models:
     description: '{{ doc("challenge39") }}'
   - name: challenge_40
     description: '{{ doc("challenge40") }}'
+  - name: challenge_52
+    description: '{{ doc("challenge52") }}'
+  - name: challenge_53
+    description: '{{ doc("challenge53") }}'
