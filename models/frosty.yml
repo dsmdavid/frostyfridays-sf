@@ -265,7 +265,7 @@ models:
     description: '{{ doc("challenge22") }}'
   - name: challenge_25_3
     description: '{{ doc("challenge25") }}'
-  - name: challenge_27
+  - name: challenge_27_02
     description: '{{ doc("challenge27") }}'
   - name: challenge_28
     config:
@@ -294,3 +294,8 @@ models:
     config:
       docs:
         node_color: "gold"
+  - name: challenge_60
+    description: '{{ doc("challenge60") }}'
+    config:
+      docs:
+        node_color: "orange"
