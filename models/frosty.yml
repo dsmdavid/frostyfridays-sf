@@ -298,4 +298,4 @@ models:
     description: '{{ doc("challenge60") }}'
     config:
       docs:
-        node_color: "orange"
+        node_color: "orange" 
