@@ -1,0 +1,49 @@
+version: 2
+sources:
+  - name: ext_table
+    schema: dvd_frosty_fridays
+    tables:
+      - name: ext_json_table
+        description: >
+          External table created on top of the `dvd_stage_external_json` stage.
+          Test for ext stages, not in actual use.
+        freshness:
+          warn_after:
+            count: 1
+            period: day
+          error_after:
+            count: 2
+            period: day
+          filter: date_ingested > '2023-09-10'::date
+        loaded_at_field: to_timestamp(date_ingested)
+        # columns:
+        #   - name: ingested_from_file
+        #     data_type: varchar
+        #     expression: to_varchar(metadata$filename)
+        #   - name: row_number
+        #     data_type: number
+        #     expression: try_cast(metadata$file_row_number as number)
+        #   - name: word
+        #     data_type: varchar
+
+        external:
+          location: '@dvd_stage_external_json'
+          file_format: "( type = json strip_outer_array = true )"
+          pattern: ".*.json"
+          partitions:
+            - name: file_ingested
+              data_type: number
+              expression: cast(split_part(split_part(metadata$filename, '.',0), '_', -1) as number)
+            - name: date_ingested
+              data_type: date
+              expression: |
+                ifnull(
+                  cast(
+                    concat(
+                        split_part(metadata$filename, '/', -4), '-',
+                        split_part(metadata$filename, '/', -3), '-',
+                        split_part(metadata$filename, '/', -2)
+                        )
+                    as date),
+                    '1999-12-31'
+                  )

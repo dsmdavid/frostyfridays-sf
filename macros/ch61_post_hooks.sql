@@ -4,7 +4,7 @@
 
 --create stage to drop the file into
 {% set stage_name = 'dvd_ff_61_share'%}
-{% set stage_additional_info = "  encryption = (type = 'SNOWFLAKE_SSE') directory = (enable = TRUE)" %} -- noqa: L016
+{% set stage_additional_info = "  encryption = (type = 'SNOWFLAKE_SSE') directory = (enable = TRUE)" %} -- noqa: disable=L016
 {{ create_stage(
         database = target.database,
         schema = target.schema,
