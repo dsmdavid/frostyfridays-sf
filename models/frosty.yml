@@ -304,3 +304,7 @@ models:
     config:
       docs:
         node_color: "green" 
+  - name: challenge_65
+    tests:
+        - unique:
+             column_name: invention_title || patent_type || application_date 
