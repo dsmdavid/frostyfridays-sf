@@ -6,6 +6,9 @@ on:
   workflow_dispatch:
     
 
+env:
+  AWS_REGION : "eu-west-1" #Change to reflect your Region
+    
 jobs:
 
   generate_docs:
@@ -32,6 +35,21 @@ jobs:
 
     steps:
       - uses: "actions/checkout@v3"
+
+      - name: configure aws credentials
+        id: creds
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::344768802373:role/dvd_github_frostyfridays_bucket_access
+          #change to reflect your IAM role’s ARN
+          role-session-name: dvd_frosty_friday
+          aws-region: ${{ env.AWS_REGION }}
+          output-credentials: true
+      - name: Sts GetCallerIdentity
+        id: sts
+        run: |
+          aws sts get-caller-identity
+
       - uses: "actions/setup-python@v2"
         with:
           python-version: "3.9"
@@ -61,7 +79,7 @@ jobs:
       - name: dbt docs generate
         run: |
           pwd
-          source ./aws_export
+          # source ./aws_export
           echo "key"
           cat ./rsa_key_david_sf.p8 
           chmod 644 ./rsa_key_david_sf.p8 
