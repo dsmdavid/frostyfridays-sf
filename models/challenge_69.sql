@@ -57,9 +57,11 @@ SELECT
     string_2,
     jarowinkler_similarity(string_1, string_2) AS jarowinkler,
     editdistance(string_1, string_2, 10) AS levenshtein_distance,
-    levenshtein_distance
-    / greatest(
-        1, length(string_1), length(string_2)
+    div0null(
+        levenshtein_distance,
+        greatest(
+            1, length(string_1), length(string_2)
+        )
     ) AS levenshtein_distance_normalized
 
 FROM input_data
