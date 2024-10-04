@@ -110,6 +110,8 @@ $$
 {% do run_query(sql) %}
 {% endif %}
 
+{% if var('ch113', var('run_all', false)) %}
+
 WITH
     users AS (
         SELECT *
@@ -118,6 +120,9 @@ WITH
 
 SELECT * FROM users
 
+{% else %}
+SELECT 'ch113 not enabled' as CHALLENGE_STATUS
+{% endif %}
 
 
 {% if execute 

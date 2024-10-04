@@ -141,7 +141,7 @@ jobs:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
           title: "SQLFluff Lint Comment"
           input: "./annotations.json"
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         if: needs.changedfiles.outputs.allsql != ''
         with:
           name: outputs
