@@ -126,9 +126,7 @@ WITH
     get_centroids AS (
         SELECT
             region,
-            ST_CENTROID(ST_COLLECT(geo_point)) AS centroid,
-            ST_X(centroid) AS centroid_longitude,
-            ST_Y(centroid) AS centroid_latitude
+            ST_CENTROID(ST_COLLECT(geo_point)) AS centroid
         FROM raw_data
         GROUP BY region
     ),
