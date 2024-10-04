@@ -2,3 +2,4 @@ dbt-snowflake==1.8.2
 sqlfluff==3.0.7
 sqlfluff-templater-dbt==3.0.7
 pre-commit==2.20.0
+typer

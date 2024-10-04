@@ -1,4 +1,3 @@
-version: '3.3'
 services:
     frosty-local:
         command: /bin/bash
