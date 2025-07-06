@@ -5,7 +5,7 @@ frosty:
       type: "snowflake"
       account: "{{ env_var('dvd_sf_account')}}"
       private_key_passphrase: "{{ env_var('dvd_sf_passphrase')}}"
-      private_key_path: /root/.ssh/rsa_key_david_sf.p8
+      private_key_path: "{{ env_var('private_key_path') }}"
       user: "{{ env_var('dvd_sf_user')}}"
       role: "{{ env_var('dvd_sf_role')}}"
       database: "{{ env_var('dvd_sf_db')}}" 
