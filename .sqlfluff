@@ -383,3 +383,4 @@ forbid_subquery_in = join
 ch55 = False
 ch63 = False
 ch64 = False
+ch140 = True
